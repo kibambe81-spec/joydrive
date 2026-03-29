@@ -616,10 +616,19 @@ export default function App() {
       const watchId = navigator.geolocation.watchPosition(
         (pos) => {
           setUserLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-          if (pos.coords.heading !== null) setHeading(pos.coords.heading);
+          if (pos.coords.heading !== null && pos.coords.heading !== undefined) {
+            setHeading(pos.coords.heading);
+          }
         },
-        () => console.warn("Location access denied"),
-        { enableHighAccuracy: true }
+        (error) => {
+          console.warn("Location access error:", error);
+          setUserLocation({ lat: 48.8566, lng: 2.3522 });
+        },
+        { 
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0
+        }
       );
       return () => navigator.geolocation.clearWatch(watchId);
     }
