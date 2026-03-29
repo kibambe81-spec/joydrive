@@ -1726,7 +1726,7 @@ export default function App() {
                               onClick={() => setRatingData({...ratingData, [item.key]: star})}
                               className={cn("focus:outline-none p-2 rounded-lg border-2 transition-all", (ratingData as any)[item.key] >= star ? "border-[#FDB931] bg-[#FDB931]/10" : theme === 'dark' ? "border-white/20 bg-white/5" : "border-[#FDB931]/30 bg-[#FDB931]/5")}
                             >
-                              <Star className={cn("w-8 h-8 transition-all", (ratingData as any)[item.key] >= star ? "text-[#FDB931] fill-[#FDB931]" : theme === 'dark' ? "text-white/30" : "text-[#FDB931]/40")} />
+                              <Star className={cn("w-5 h-5 transition-all", (ratingData as any)[item.key] >= star ? "text-[#FDB931] fill-[#FDB931]" : theme === 'dark' ? "text-white/30" : "text-[#FDB931]/40")} />
                             </button>
                           ))}
                         </div>
