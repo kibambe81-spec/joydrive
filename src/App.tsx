@@ -114,12 +114,23 @@ const lightMapOptions = {
 };
 
 const RIDE_TYPES = [
-  { id: 'joy_lite', name: 'Joy Lite', icon: Car, price: 45, time: '2 min', description: 'Quick & Efficient', color: '#FDB931' },
-  { id: 'joy_economy', name: 'Joy Economy', icon: Car, price: 85, time: '4 min', description: 'Comfortable & Affordable', color: '#FFFFFF' },
-  { id: 'joy_express', name: 'Joy Express', icon: Car, price: 125, time: '3 min', description: 'Premium & Fast', color: '#FFFFFF' },
-  { id: 'joy_vip', name: 'Joy VIP', icon: Car, price: 350, time: '5 min', description: 'Luxury & Style', color: '#FFFFFF' },
-  { id: 'joy_parcels', name: 'Joy Parcels', icon: Package, price: 65, time: '10 min', description: 'Safe & Secure Delivery', color: '#FDB931' },
-  { id: 'joy_moving', name: 'Joy Moving', icon: Truck, price: 650, time: '15 min', description: 'Large Capacity Moving', color: '#FFFFFF' },
+  { id: 'joy_lite', name: 'Joy Lite', icon: Car, basePrice: 25, pricePerKm: 8, time: '2 min', description: 'Quick & Efficient', color: '#FDB931' },
+  { id: 'joy_economy', name: 'Joy Economy', icon: Car, basePrice: 35, pricePerKm: 12, time: '4 min', description: 'Comfortable & Affordable', color: '#FFFFFF' },
+  { id: 'joy_express', name: 'Joy Express', icon: Car, basePrice: 50, pricePerKm: 18, time: '3 min', description: 'Premium & Fast', color: '#FFFFFF' },
+  { id: 'joy_vip', name: 'Joy VIP', icon: Car, basePrice: 100, pricePerKm: 35, time: '5 min', description: 'Luxury & Style', color: '#FFFFFF' },
+  { id: 'joy_parcels', name: 'Joy Parcels', icon: Package, basePrice: 30, pricePerKm: 10, time: '10 min', description: 'Safe & Secure Delivery', color: '#FDB931' },
+  { id: 'joy_moving', name: 'Joy Moving', icon: Truck, basePrice: 200, pricePerKm: 50, time: '15 min', description: 'Large Capacity Moving', color: '#FFFFFF' },
+];
+
+const REFERENCE_ADDRESSES = [
+  { name: 'Johannesburg CBD', address: 'Johannesburg, South Africa' },
+  { name: 'Sandton City', address: 'Sandton, Johannesburg' },
+  { name: 'Cape Town Waterfront', address: 'V&A Waterfront, Cape Town' },
+  { name: 'Durban Beach Front', address: 'Durban, South Africa' },
+  { name: 'Pretoria Union Buildings', address: 'Pretoria, South Africa' },
+  { name: 'Bloemfontein CBD', address: 'Bloemfontein, South Africa' },
+  { name: 'Port Elizabeth Beachfront', address: 'Port Elizabeth, South Africa' },
+  { name: 'Polokwane CBD', address: 'Polokwane, South Africa' },
 ];
 
 const LANGUAGES = [
@@ -597,6 +608,15 @@ export default function App() {
   ]);
   const [zoom, setZoom] = useState(15);
   const [driverRegData, setDriverRegData] = useState({ phone: '', color: '', license: null as File | null, vehicleDocs: null as File | null });
+  const [distance, setDistance] = useState(0);
+  const [showAddressSuggestions, setShowAddressSuggestions] = useState(false);
+  const [suggestionType, setSuggestionType] = useState<'origin' | 'destination'>('origin');
+
+  const calculatePrice = (rideType: any, distanceKm: number) => {
+    const basePrice = rideType.basePrice || 0;
+    const pricePerKm = rideType.pricePerKm || 0;
+    return Math.max(basePrice, basePrice + (distanceKm * pricePerKm));
+  };
 
   const t = (key: string) => TRANSLATIONS[lang]?.[key] || TRANSLATIONS['en'][key];
 
@@ -975,6 +995,8 @@ export default function App() {
       (result, status) => {
         if (status === google.maps.DirectionsStatus.OK && result) {
           setDirections(result);
+          const totalDistance = result.routes[0].legs.reduce((sum, leg) => sum + (leg.distance?.value || 0), 0) / 1000;
+          setDistance(totalDistance);
           setAppState('vehicle-selection');
           generateAiInsight(finalOrigin, finalDest);
         } else {
@@ -1726,7 +1748,7 @@ export default function App() {
                         {paymentMethod === 'card' ? <CreditCard className="w-5 h-5 text-blue-400" /> : <Banknote className="w-5 h-5 text-green-400" />}
                         <span className="text-sm font-bold">{paymentMethod === 'card' ? t('card') : t('cash')}</span>
                       </div>
-                      <span className="text-xl font-display joy-gradient">R {selectedRide?.price}</span>
+                      <span className="text-xl font-display joy-gradient">R {calculatePrice(selectedRide, distance).toFixed(2)}</span>
                     </div>
 
                     <button 
@@ -1884,7 +1906,7 @@ export default function App() {
                           <p className="text-[10px] opacity-50">{ride.description}</p>
                         </div>
                         <div className="text-right">
-                          <p className="font-bold text-sm">R {ride.price}</p>
+                          <p className="font-bold text-sm">R {calculatePrice(ride, distance).toFixed(2)}</p>
                           <p className="text-[10px] opacity-40">{ride.time}</p>
                         </div>
                       </motion.button>
