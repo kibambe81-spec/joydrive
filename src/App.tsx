@@ -1378,7 +1378,7 @@ export default function App() {
             {(showAbout || showPrivacy || showHistory || showNotifications) && (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={cn("fixed inset-0 z-[120] backdrop-blur-2xl flex items-center justify-center p-6", theme === 'dark' ? "bg-black/80" : "bg-white/80")}>
                 <div className="w-full max-w-md glass backdrop-blur-3xl rounded-3xl p-8 relative overflow-hidden shadow-2xl">
-                  <button onClick={() => { setShowAbout(false); setShowPrivacy(false); setShowHistory(false); setShowNotifications(false); }} className="absolute top-4 right-4 p-2 hover:bg-white/10 rounded-full transition-colors"><X className="w-5 h-5" /></button>
+                  <button onClick={() => { setShowAbout(false); setShowPrivacy(false); setShowHistory(false); setShowNotifications(false); }} className="absolute top-4 right-4 p-2 hover:bg-white/10 rounded-full transition-colors z-50 cursor-pointer"><X className="w-5 h-5" /></button>
                   
                   {showNotifications ? (
                     <>
@@ -1616,11 +1616,18 @@ export default function App() {
             )}
 
             {showEmergencyConfirm && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={cn("fixed inset-0 z-[130] backdrop-blur-xl flex items-center justify-center p-6", theme === 'dark' ? "bg-black/90" : "bg-white/90")}>
-                <div className={cn("w-full max-w-md glass backdrop-blur-3xl border-2 border-red-500/20 rounded-3xl p-8 max-h-[80vh] overflow-y-auto custom-scrollbar shadow-2xl", theme === 'dark' ? "bg-slate-900/80" : "bg-white/80")}>
-                  <AlertTriangle className="w-12 h-12 text-red-500 mx-auto mb-6" />
-                  <h3 className="text-2xl font-display mb-4 text-center">{t('emergency')}</h3>
-                  <p className={cn("text-sm mb-8 text-center", theme === 'dark' ? "text-white/50" : "text-black/50")}>{lang === 'fr' ? "Services d'urgence en Afrique du Sud" : "South African Emergency Services"}</p>
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={cn("fixed inset-0 z-[130] backdrop-blur-2xl flex items-center justify-center p-6", theme === 'dark' ? "bg-black/80" : "bg-white/80")}>
+                <div className={cn("w-full max-w-md glass backdrop-blur-3xl rounded-3xl p-8 max-h-[80vh] overflow-y-auto custom-scrollbar shadow-2xl border", theme === 'dark' ? "bg-white/10 border-white/20" : "bg-white/20 border-white/30")}>
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-3">
+                      <div className="p-3 rounded-2xl bg-red-500/20">
+                        <AlertTriangle className="w-6 h-6 text-red-500" />
+                      </div>
+                      <h3 className="text-2xl font-display">{t('emergency')}</h3>
+                    </div>
+                    <button onClick={() => setShowEmergencyConfirm(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors z-50 cursor-pointer"><X className="w-5 h-5" /></button>
+                  </div>
+                  <p className={cn("text-sm mb-6", theme === 'dark' ? "text-white/60" : "text-black/60")}>{lang === 'fr' ? "Services d'urgence en Afrique du Sud" : "South African Emergency Services"}</p>
                   
                   <div className="space-y-3">
                     {[
