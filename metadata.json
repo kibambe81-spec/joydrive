@@ -1,0 +1,7 @@
+{
+  "name": "JoyDrive",
+  "description": "Une application de transport premium alliant l'intelligence d'Uber et Bolt avec un design élégant et un suivi en temps réel avancé.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

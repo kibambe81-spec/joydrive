@@ -1,0 +1,1073 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ * JoyDrive - Premium Transport Application
+ * Fully integrated with Supabase Realtime, Google Maps & Gemini AI
+ */
+
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { GoogleMap, useJsApiLoader, Marker, DirectionsRenderer, Autocomplete } from '@react-google-maps/api';
+import { motion, AnimatePresence } from 'motion/react';
+import {
+  Navigation,
+  Search,
+  MapPin,
+  Clock,
+  CreditCard,
+  User,
+  Settings,
+  Star,
+  ChevronRight,
+  Car,
+  ShieldCheck,
+  Zap,
+  Menu,
+  X,
+  History,
+  Gift,
+  HelpCircle,
+  LogOut,
+  Globe,
+  Info,
+  FileText,
+  Briefcase,
+  Facebook,
+  Mail,
+  Phone,
+  MessageSquare,
+  Truck,
+  Package,
+  Shield,
+  ArrowLeft,
+  ArrowRight,
+  Camera,
+  CheckCircle2,
+  AlertTriangle,
+  Sun,
+  Moon,
+  Bell,
+  Wallet,
+  Banknote,
+  FileCheck,
+  Smartphone,
+  Palette,
+  Upload,
+  Plus,
+  Heart,
+  PhoneCall,
+  Send,
+  Trash2,
+} from 'lucide-react';
+import { cn } from './lib/utils';
+import { GoogleGenAI } from '@google/genai';
+import confetti from 'canvas-confetti';
+import {
+  supabase,
+  uploadProfilePhoto,
+  subscribeToMessages,
+  subscribeToNotifications,
+  sendMessage,
+  initiateCall,
+  saveRide,
+  saveNotification,
+  signInWithGoogle,
+  signInWithFacebook,
+  signOut,
+  deleteUserAccount,
+  getCurrentUser,
+  getUserProfile,
+  updateProfile,
+  createProfile,
+} from './lib/supabase';
+import { useVoiceNavigation } from './hooks/useVoiceNavigation';
+import { ChatModal } from './components/ChatModal';
+import { NotificationsModal } from './components/NotificationsModal';
+
+const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
+
+const mapContainerStyle = { width: '100%', height: '100vh' };
+const center = { lat: -33.9249, lng: 18.4241 }; // Cape Town, South Africa
+
+const darkMapOptions = {
+  disableDefaultUI: true,
+  styles: [
+    { elementType: 'geometry', stylers: [{ color: '#1a1a1a' }] },
+    { elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
+    { elementType: 'labels.text.fill', stylers: [{ color: '#ffffff' }] },
+    { elementType: 'labels.text.stroke', stylers: [{ color: '#1a1a1a' }] },
+    { featureType: 'road', elementType: 'geometry.fill', stylers: [{ color: '#2c2c2c' }] },
+    { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#000000' }] },
+  ],
+};
+
+const lightMapOptions = {
+  disableDefaultUI: true,
+  styles: [
+    { elementType: 'geometry', stylers: [{ color: '#ebe3cd' }] },
+    { elementType: 'labels.text.fill', stylers: [{ color: '#523735' }] },
+    { elementType: 'labels.text.stroke', stylers: [{ color: '#f5f1e6' }] },
+    { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#f5f1e6' }] },
+    { featureType: 'water', elementType: 'geometry.fill', stylers: [{ color: '#b9d3c2' }] },
+  ],
+};
+
+const RIDE_TYPES = [
+  { id: 'joy_lite', name: 'Joy Lite', icon: Car, price: 45, time: '2 min', description: 'Quick & Efficient', color: '#FDB931' },
+  { id: 'joy_economy', name: 'Joy Economy', icon: Car, price: 85, time: '4 min', description: 'Comfortable & Affordable', color: '#FFFFFF' },
+  { id: 'joy_express', name: 'Joy Express', icon: Car, price: 125, time: '3 min', description: 'Premium & Fast', color: '#FFFFFF' },
+  { id: 'joy_vip', name: 'Joy VIP', icon: Car, price: 350, time: '5 min', description: 'Luxury & Style', color: '#FFFFFF' },
+  { id: 'joy_parcels', name: 'Joy Parcels', icon: Package, price: 65, time: '10 min', description: 'Safe & Secure Delivery', color: '#FDB931' },
+  { id: 'joy_moving', name: 'Joy Moving', icon: Truck, price: 650, time: '15 min', description: 'Large Capacity Moving', color: '#FFFFFF' },
+];
+
+const LANGUAGES = [
+  { code: 'en', name: 'English' },
+  { code: 'fr', name: 'Français' },
+  { code: 'zu', name: 'Zulu' },
+  { code: 'xh', name: 'Xhosa' },
+  { code: 'af', name: 'Afrikaans' },
+];
+
+const TRANSLATIONS: Record<string, any> = {
+  en: {
+    welcome: 'Welcome to JoyDrive',
+    tagline: 'Intelligence & Prestige',
+    getStarted: 'Get Started',
+    whereTo: 'Where to?',
+    from: 'Pickup point',
+    search: 'Search Ride',
+    order: 'Order',
+    cancel: 'Cancel',
+    confirm: 'Confirm',
+    becomeDriver: 'Become a Driver',
+    profile: 'Profile',
+    history: 'History',
+    payment: 'Payment',
+    promos: 'Promotions',
+    help: 'Help',
+    settings: 'Settings',
+    darkMode: 'Dark Mode',
+    lightMode: 'Light Mode',
+    theme: 'Theme',
+    about: 'About',
+    privacy: 'Privacy Policy',
+    language: 'Language',
+    logout: 'Sign Out',
+    deleteAccount: 'Delete Account',
+    driverArriving: 'Your JoyDrive is arriving',
+    driverInfo: 'Your driver is on the way.',
+    paymentRequired: 'Payment Verification',
+    payNow: 'Pay & Search',
+    firstName: 'First Name',
+    lastName: 'Last Name',
+    email: 'Email',
+    register: 'Register',
+    socialLogin: 'Or continue with',
+    deleteConfirm: 'Are you sure you want to delete your account? This action cannot be undone.',
+    saveChanges: 'Save Changes',
+    selectLanguage: 'Select Language',
+    emergency: 'Emergency',
+    emergencyNumber: 'Police: 10111',
+    searchingDriver: 'Searching for your pilot...',
+    driverFound: 'Pilot Found!',
+    driverArrived: 'Your pilot has arrived!',
+    message: 'Message',
+    call: 'Call',
+    eta: 'ETA',
+    min: 'min',
+    paymentMethod: 'Payment Method',
+    cash: 'Cash',
+    card: 'Credit Card',
+    notifications: 'Notifications',
+    becomeDriverTitle: 'Join the Fleet',
+    driverPhone: 'Phone Number',
+    vehicleColor: 'Vehicle Color',
+    uploadDocs: 'Upload Documents (PDF/Image)',
+    license: "Driver's License",
+    vehicleDocs: 'Vehicle Registration',
+    rateDriver: 'Rate your Driver',
+    driverFeedback: 'How was your driver?',
+    vehicleFeedback: 'How was the vehicle?',
+    tripFeedback: 'How was the trip?',
+    priceFeedback: 'How was the price?',
+    feedbackPlaceholder: 'Tell us more about your journey...',
+    submitFeedback: 'Submit Review',
+    downloading: 'Downloading intelligence...',
+    forgotSomething: 'Forgot something in the vehicle?',
+    callDriverManual: 'Call Driver',
+    addStop: 'Add Stop',
+    favorites: 'Favorites',
+    saveAddress: 'Save Address',
+    saveDriver: 'Save Driver',
+    favoriteDrivers: 'Favorite Drivers',
+    favoriteAddresses: 'Favorite Addresses',
+    addCard: 'Add New Card',
+    cardNumber: 'Card Number',
+    expiryDate: 'Expiry Date',
+    cvv: 'CVV',
+    paymentSuccess: 'Payment Successful!',
+    noCards: 'No cards saved yet',
+    signInWithGoogle: 'Sign in with Google',
+    signIn: 'Sign In',
+    uploadPhoto: 'Upload Photo',
+    uploadingPhoto: 'Uploading...',
+    photoUploaded: 'Photo uploaded successfully!',
+    deleteAccountPermanently: 'Delete Account Permanently',
+    deleteAccountWarning: 'This will permanently delete your account and all associated data.',
+    confirmDelete: 'I understand, delete my account',
+  },
+  fr: {
+    welcome: 'Bienvenue sur JoyDrive',
+    tagline: 'Intelligence & Prestige',
+    getStarted: 'Commencer',
+    whereTo: 'Où allez-vous ?',
+    from: 'Point de départ',
+    search: 'Rechercher',
+    order: 'Commander',
+    cancel: 'Annuler',
+    confirm: 'Confirmer',
+    becomeDriver: 'Devenir Chauffeur',
+    profile: 'Profil',
+    history: 'Trajets',
+    payment: 'Paiement',
+    promos: 'Promotions',
+    help: 'Aide',
+    settings: 'Paramètres',
+    about: 'À propos',
+    privacy: 'Confidentialité',
+    language: 'Langue',
+    logout: 'Déconnexion',
+    deleteAccount: 'Supprimer le compte',
+    driverArriving: 'Votre JoyDrive arrive',
+    driverInfo: 'Votre chauffeur est en route.',
+    paymentRequired: 'Vérification du paiement',
+    payNow: 'Payer & Rechercher',
+    firstName: 'Prénom',
+    lastName: 'Nom',
+    email: 'Email',
+    register: "S'enregistrer",
+    socialLogin: 'Ou continuer avec',
+    deleteConfirm: 'Êtes-vous sûr de vouloir supprimer votre compte ? Cette action ne peut pas être annulée.',
+    saveChanges: 'Enregistrer',
+    selectLanguage: 'Choisir la langue',
+    darkMode: 'Mode Sombre',
+    lightMode: 'Mode Clair',
+    theme: 'Thème',
+    emergency: 'Urgence',
+    emergencyNumber: 'Police: 10111',
+    searchingDriver: 'Recherche de votre pilote...',
+    driverFound: 'Pilote Trouvé !',
+    driverArrived: 'Votre pilote est arrivé !',
+    message: 'Message',
+    call: 'Appel',
+    eta: 'Arrivée',
+    min: 'min',
+    paymentMethod: 'Mode de Paiement',
+    cash: 'Espèces',
+    card: 'Carte Bancaire',
+    notifications: 'Notifications',
+    becomeDriverTitle: 'Rejoindre la Flotte',
+    driverPhone: 'Numéro de Téléphone',
+    vehicleColor: 'Couleur du Véhicule',
+    uploadDocs: 'Télécharger Documents (PDF/Image)',
+    license: 'Permis de Conduire',
+    vehicleDocs: 'Carte Grise',
+    rateDriver: 'Notez votre chauffeur',
+    driverFeedback: 'Comment était le chauffeur ?',
+    vehicleFeedback: 'Comment était le véhicule ?',
+    tripFeedback: 'Comment était le trajet ?',
+    priceFeedback: 'Comment était le prix ?',
+    feedbackPlaceholder: 'Dites-nous en plus sur votre voyage...',
+    submitFeedback: "Envoyer l'avis",
+    downloading: "Téléchargement de l'intelligence...",
+    forgotSomething: 'Oublié quelque chose dans le véhicule ?',
+    callDriverManual: 'Appeler le chauffeur',
+    addStop: 'Ajouter un arrêt',
+    favorites: 'Favoris',
+    saveAddress: "Sauvegarder l'adresse",
+    saveDriver: 'Sauvegarder le chauffeur',
+    favoriteDrivers: 'Chauffeurs Favoris',
+    favoriteAddresses: 'Adresses Favorites',
+    addCard: 'Ajouter une Carte',
+    cardNumber: 'Numéro de Carte',
+    expiryDate: "Date d'Expiration",
+    cvv: 'CVV',
+    paymentSuccess: 'Paiement Réussi !',
+    noCards: 'Aucune carte enregistrée',
+    signInWithGoogle: 'Se connecter avec Google',
+    signIn: 'Se connecter',
+    uploadPhoto: 'Télécharger une photo',
+    uploadingPhoto: 'Téléchargement...',
+    photoUploaded: 'Photo téléchargée avec succès !',
+    deleteAccountPermanently: 'Supprimer définitivement le compte',
+    deleteAccountWarning: 'Cela supprimera définitivement votre compte et toutes les données associées.',
+    confirmDelete: 'Je comprends, supprimer mon compte',
+  },
+  zu: {
+    welcome: 'Siyakwamukela ku-JoyDrive',
+    tagline: 'Ubuhlakani & Ubukhosi',
+    getStarted: 'Qala',
+    whereTo: 'Uya kuphi?',
+    from: 'Indawo yokuqala',
+    search: 'Cinga',
+    order: 'Oda',
+    cancel: 'Khansela',
+    confirm: 'Qinisekisa',
+    becomeDriver: 'Yiba Umshayeli',
+    profile: 'Iphrofayili',
+    history: 'Umlando',
+    payment: 'Inkokhelo',
+    promos: 'Izintuthuko',
+    help: 'Usizo',
+    settings: 'Izilungiselelo',
+    darkMode: 'Imodi Emnyama',
+    lightMode: 'Imodi Ekhanya',
+    theme: 'Isigaba',
+    about: 'Mayelana',
+    privacy: 'Inqubomgomo Yobuciko',
+    language: 'Ulimi',
+    logout: 'Phuma',
+    deleteAccount: 'Susa iAkhawunti',
+    emergency: 'Okukuphuthumayo',
+    emergencyNumber: 'Umkhosi: 10111',
+    signInWithGoogle: 'Ngena nge-Google',
+    signIn: 'Ngena',
+    uploadPhoto: 'Layisha Isithombe',
+    uploadingPhoto: 'Kulayisha...',
+    photoUploaded: 'Isithombe seliluthe!',
+    deleteAccountPermanently: 'Susa iAkhawunti Ngokuphelele',
+    deleteAccountWarning: 'Lokhu kusuzela iAkhawunti yakho ngokuphelele nokonke okuxhunyaniswe nayo.',
+    confirmDelete: 'Ngiyaqonda, susa iAkhawunti yami',
+  },
+  xh: {
+    welcome: 'Wamkelekile ku-JoyDrive',
+    tagline: 'Ilunga & Ubukumkani',
+    getStarted: 'Qalisa',
+    whereTo: 'Uya phi?',
+    from: 'Indawo yokuqala',
+    search: 'Cinga',
+    order: 'Oda',
+    cancel: 'Rhoxisa',
+    confirm: 'Qinisekisa',
+    becomeDriver: 'Yiba Umshayeli',
+    profile: 'Iphrofayili',
+    history: 'Imbali',
+    payment: 'Inkokhelo',
+    promos: 'Izintuthuko',
+    help: 'Uncedo',
+    settings: 'Izilungiselelo',
+    darkMode: 'Imodi Emnyama',
+    lightMode: 'Imodi Ekhanya',
+    theme: 'Isigaba',
+    about: 'Malunga',
+    privacy: 'Inqubomgomo Yobuciko',
+    language: 'Ulwimi',
+    logout: 'Phuma',
+    deleteAccount: 'Susa iAkhawunti',
+    emergency: 'Okukuphuthumayo',
+    emergencyNumber: 'Umkhosi: 10111',
+    signInWithGoogle: 'Ngena nge-Google',
+    signIn: 'Ngena',
+    uploadPhoto: 'Layisha Isithombe',
+    uploadingPhoto: 'Kulayisha...',
+    photoUploaded: 'Isithombe seliluthe!',
+    deleteAccountPermanently: 'Susa iAkhawunti Ngokuphelele',
+    deleteAccountWarning: 'Lokhu kusuzela iAkhawunti yakho ngokuphelele nokonke okuxhunyaniswe nayo.',
+    confirmDelete: 'Ndiyaqonda, susa iAkhawunti yam',
+  },
+  af: {
+    welcome: 'Welkom by JoyDrive',
+    tagline: 'Intelligensie & Prestige',
+    getStarted: 'Begin',
+    whereTo: 'Waarheen?',
+    from: 'Ophaalpunt',
+    search: 'Soek',
+    order: 'Bestel',
+    cancel: 'Kanselleer',
+    confirm: 'Bevestig',
+    becomeDriver: 'Word Bestuurder',
+    profile: 'Profiel',
+    history: 'Geskiedenis',
+    payment: 'Betaling',
+    promos: 'Promosies',
+    help: 'Hulp',
+    settings: 'Instellings',
+    darkMode: 'Donker Modus',
+    lightMode: 'Lig Modus',
+    theme: 'Tema',
+    about: 'Oor',
+    privacy: 'Privacybeleid',
+    language: 'Taal',
+    logout: 'Teken uit',
+    deleteAccount: 'Skrap Rekening',
+    emergency: 'Noodgeval',
+    emergencyNumber: 'Polisie: 10111',
+    signInWithGoogle: 'Teken in met Google',
+    signIn: 'Teken in',
+    uploadPhoto: 'Laai Foto op',
+    uploadingPhoto: 'Laai op...',
+    photoUploaded: 'Foto suksesvol opgelaai!',
+    deleteAccountPermanently: 'Skrap Rekening Permanent',
+    deleteAccountWarning: 'Dit sal jou rekening en alle geassosieerde data permanent skrap.',
+    confirmDelete: 'Ek verstaan, skrap my rekening',
+  },
+};
+
+export default function App() {
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: GOOGLE_MAPS_API_KEY,
+    libraries: ['places'],
+  });
+
+  const [user, setUser] = useState<any>(null);
+  const [profile, setProfile] = useState<any>(null);
+  const [language, setLanguage] = useState<'en' | 'fr' | 'zu' | 'xh' | 'af'>('en');
+  const [darkMode, setDarkMode] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [showLanguageModal, setShowLanguageModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [origin, setOrigin] = useState('');
+  const [destination, setDestination] = useState('');
+  const [showRideOptions, setShowRideOptions] = useState(false);
+  const [selectedRide, setSelectedRide] = useState<any>(null);
+  const [directions, setDirections] = useState<any>(null);
+  const [mapRef, setMapRef] = useState<any>(null);
+  const [notificationCount, setNotificationCount] = useState(0);
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [messages, setMessages] = useState<any[]>([]);
+  const [showChatModal, setShowChatModal] = useState(false);
+  const [showNotificationsModal, setShowNotificationsModal] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const { speak, announceDriverFound, announceDriverArrived, announceArrival } = useVoiceNavigation(language);
+  const t = TRANSLATIONS[language];
+
+  // Initialize user session
+  useEffect(() => {
+    const initializeUser = async () => {
+      const currentUser = await getCurrentUser();
+      if (currentUser) {
+        setUser(currentUser);
+        const userProfile = await getUserProfile(currentUser.id);
+        if (userProfile) {
+          setProfile(userProfile);
+        } else {
+          // Create profile for new user
+          await createProfile(
+            currentUser.id,
+            currentUser.email || '',
+            currentUser.user_metadata?.name,
+            currentUser.user_metadata?.avatar_url
+          );
+          const newProfile = await getUserProfile(currentUser.id);
+          setProfile(newProfile);
+        }
+      }
+    };
+
+    initializeUser();
+
+    // Subscribe to auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (session?.user) {
+        setUser(session.user);
+        const userProfile = await getUserProfile(session.user.id);
+        setProfile(userProfile);
+      } else {
+        setUser(null);
+        setProfile(null);
+      }
+    });
+
+    return () => subscription?.unsubscribe();
+  }, []);
+
+  // Subscribe to notifications
+  useEffect(() => {
+    if (user) {
+      const unsubscribe = subscribeToNotifications(user.id, (notification) => {
+        setNotifications((prev) => [notification, ...prev]);
+        setNotificationCount((prev) => prev + 1);
+      });
+      return () => unsubscribe.unsubscribe();
+    }
+  }, [user]);
+
+  // Handle Google Sign In
+  const handleGoogleSignIn = async () => {
+    await signInWithGoogle();
+  };
+
+  // Handle Sign Out
+  const handleSignOut = async () => {
+    await signOut();
+    setUser(null);
+    setProfile(null);
+    setMenuOpen(false);
+  };
+
+  // Handle Delete Account
+  const handleDeleteAccount = async () => {
+    if (!user) return;
+    try {
+      await deleteUserAccount(user.id);
+      await signOut();
+      setUser(null);
+      setProfile(null);
+      setShowDeleteModal(false);
+      setMenuOpen(false);
+    } catch (error) {
+      console.error('Delete account error:', error);
+    }
+  };
+
+  // Handle Photo Upload
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !user) return;
+
+    setUploading(true);
+    try {
+      const photoUrl = await uploadProfilePhoto(user.id, file);
+      if (photoUrl) {
+        await updateProfile(user.id, { avatar_url: photoUrl });
+        setProfile((prev: any) => ({ ...prev, avatar_url: photoUrl }));
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  // If not logged in, show login screen
+  if (!user) {
+    return (
+      <div className={cn(
+        'w-full h-screen flex items-center justify-center',
+        darkMode ? 'bg-gradient-to-br from-gray-900 to-black' : 'bg-gradient-to-br from-gray-50 to-gray-100'
+      )}>
+        <div className="text-center">
+          <h1 className={cn('text-5xl font-bold mb-4', darkMode ? 'text-white' : 'text-gray-900')}>
+            JoyDrive
+          </h1>
+          <p className={cn('text-xl mb-8', darkMode ? 'text-gray-400' : 'text-gray-600')}>
+            {t.tagline}
+          </p>
+          <button
+            onClick={handleGoogleSignIn}
+            className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold text-lg transition-colors"
+          >
+            {t.signInWithGoogle}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className={cn('w-full h-screen flex flex-col', darkMode ? 'bg-gray-900' : 'bg-gray-50')}>
+      {/* Map */}
+      {isLoaded && (
+        <GoogleMap
+          mapContainerStyle={mapContainerStyle}
+          center={center}
+          zoom={13}
+          onLoad={setMapRef}
+          options={darkMode ? darkMapOptions : lightMapOptions}
+        >
+          {directions && <DirectionsRenderer directions={directions} />}
+        </GoogleMap>
+      )}
+
+      {/* Top Bar */}
+      <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center z-10">
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className={cn(
+            'p-3 rounded-full transition-colors',
+            darkMode ? 'bg-gray-800 hover:bg-gray-700 text-white' : 'bg-white hover:bg-gray-100 text-gray-900'
+          )}
+        >
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        <div className="flex gap-3">
+          <button
+            onClick={() => setShowNotificationsModal(true)}
+            className={cn(
+              'p-3 rounded-full relative transition-colors',
+              darkMode ? 'bg-gray-800 hover:bg-gray-700 text-white' : 'bg-white hover:bg-gray-100 text-gray-900'
+            )}
+          >
+            <Bell size={24} />
+            {notificationCount > 0 && (
+              <span className="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {notificationCount}
+              </span>
+            )}
+          </button>
+
+          <button
+            onClick={() => setShowProfileModal(true)}
+            className={cn(
+              'p-3 rounded-full transition-colors',
+              darkMode ? 'bg-gray-800 hover:bg-gray-700 text-white' : 'bg-white hover:bg-gray-100 text-gray-900'
+            )}
+          >
+            {profile?.avatar_url ? (
+              <img src={profile.avatar_url} alt="Profile" className="w-6 h-6 rounded-full" />
+            ) : (
+              <User size={24} />
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Hamburger Menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ x: -300 }}
+            animate={{ x: 0 }}
+            exit={{ x: -300 }}
+            className={cn(
+              'absolute top-0 left-0 h-screen w-80 p-6 z-20 overflow-y-auto',
+              darkMode ? 'bg-gray-800' : 'bg-white'
+            )}
+          >
+            <div className="flex justify-between items-center mb-8">
+              <h2 className={cn('text-2xl font-bold', darkMode ? 'text-white' : 'text-gray-900')}>
+                Menu
+              </h2>
+              <button onClick={() => setMenuOpen(false)}>
+                <X size={24} className={darkMode ? 'text-white' : 'text-gray-900'} />
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <button
+                onClick={() => {
+                  setShowLanguageModal(true);
+                  setMenuOpen(false);
+                }}
+                className={cn(
+                  'w-full p-4 rounded-lg flex items-center gap-3 transition-colors',
+                  darkMode ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-900'
+                )}
+              >
+                <Globe size={20} />
+                <span className="font-semibold">{t.language}</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setShowSettingsModal(true);
+                  setMenuOpen(false);
+                }}
+                className={cn(
+                  'w-full p-4 rounded-lg flex items-center gap-3 transition-colors',
+                  darkMode ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-900'
+                )}
+              >
+                <Settings size={20} />
+                <span className="font-semibold">{t.settings}</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setShowProfileModal(true);
+                  setMenuOpen(false);
+                }}
+                className={cn(
+                  'w-full p-4 rounded-lg flex items-center gap-3 transition-colors',
+                  darkMode ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-900'
+                )}
+              >
+                <User size={20} />
+                <span className="font-semibold">{t.profile}</span>
+              </button>
+
+              <div className="border-t border-gray-600 my-4"></div>
+
+              <button
+                onClick={handleSignOut}
+                className={cn(
+                  'w-full p-4 rounded-lg flex items-center gap-3 transition-colors',
+                  darkMode ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-900'
+                )}
+              >
+                <LogOut size={20} />
+                <span className="font-semibold">{t.logout}</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setShowDeleteModal(true);
+                  setMenuOpen(false);
+                }}
+                className="w-full p-4 rounded-lg flex items-center gap-3 transition-colors bg-red-600 hover:bg-red-700 text-white"
+              >
+                <Trash2 size={20} />
+                <span className="font-semibold">{t.deleteAccount}</span>
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Search Bar */}
+      <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
+        <div className={cn(
+          'rounded-2xl p-6 shadow-2xl',
+          darkMode ? 'bg-gray-800' : 'bg-white'
+        )}>
+          <div className="space-y-4 max-h-64 overflow-y-auto">
+            <div>
+              <label className={cn('block text-sm font-semibold mb-2', darkMode ? 'text-gray-300' : 'text-gray-700')}>
+                {t.from}
+              </label>
+              <input
+                type="text"
+                placeholder={t.from}
+                value={origin}
+                onChange={(e) => setOrigin(e.target.value)}
+                className={cn(
+                  'w-full px-4 py-3 rounded-lg border-2 transition-colors text-lg font-semibold',
+                  darkMode
+                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                    : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-500'
+                )}
+              />
+            </div>
+
+            <div>
+              <label className={cn('block text-sm font-semibold mb-2', darkMode ? 'text-gray-300' : 'text-gray-700')}>
+                {t.whereTo}
+              </label>
+              <input
+                type="text"
+                placeholder={t.whereTo}
+                value={destination}
+                onChange={(e) => setDestination(e.target.value)}
+                className={cn(
+                  'w-full px-4 py-3 rounded-lg border-2 transition-colors text-lg font-semibold',
+                  darkMode
+                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                    : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-500'
+                )}
+              />
+            </div>
+
+            <button
+              onClick={() => setShowRideOptions(true)}
+              className="w-full px-6 py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-gray-900 rounded-lg font-bold text-lg transition-all transform hover:scale-105"
+            >
+              {t.search}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Ride Options Modal */}
+      <AnimatePresence>
+        {showRideOptions && (
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 100 }}
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-end z-30"
+          >
+            <div className={cn(
+              'w-full rounded-t-3xl p-6 max-h-96 overflow-y-auto',
+              darkMode ? 'bg-gray-800' : 'bg-white'
+            )}>
+              <h3 className={cn('text-2xl font-bold mb-6', darkMode ? 'text-white' : 'text-gray-900')}>
+                {t.search}
+              </h3>
+              <div className="grid grid-cols-2 gap-4">
+                {RIDE_TYPES.map((ride) => (
+                  <motion.button
+                    key={ride.id}
+                    whileHover={{ scale: 1.05 }}
+                    onClick={() => {
+                      setSelectedRide(ride);
+                      setShowRideOptions(false);
+                    }}
+                    className={cn(
+                      'p-4 rounded-xl border-2 transition-colors',
+                      darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-gray-50 border-gray-300 text-gray-900'
+                    )}
+                  >
+                    <ride.icon size={32} className="mx-auto mb-2" />
+                    <p className="font-bold text-sm">{ride.name}</p>
+                    <p className="text-xs opacity-75">${ride.price}</p>
+                  </motion.button>
+                ))}
+              </div>
+              <button
+                onClick={() => setShowRideOptions(false)}
+                className={cn(
+                  'w-full mt-6 px-6 py-3 rounded-lg font-semibold transition-colors',
+                  darkMode ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-900'
+                )}
+              >
+                {t.cancel}
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Language Modal */}
+      <AnimatePresence>
+        {showLanguageModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40"
+          >
+            <div className={cn(
+              'rounded-2xl p-6 w-96 max-h-96 overflow-y-auto',
+              darkMode ? 'bg-gray-800' : 'bg-white'
+            )}>
+              <h3 className={cn('text-2xl font-bold mb-6', darkMode ? 'text-white' : 'text-gray-900')}>
+                {t.selectLanguage}
+              </h3>
+              <div className="space-y-3">
+                {LANGUAGES.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => {
+                      setLanguage(lang.code as any);
+                      setShowLanguageModal(false);
+                    }}
+                    className={cn(
+                      'w-full p-4 rounded-lg text-left font-semibold transition-colors',
+                      language === lang.code
+                        ? 'bg-yellow-500 text-gray-900'
+                        : darkMode
+                        ? 'bg-gray-700 hover:bg-gray-600 text-white'
+                        : 'bg-gray-100 hover:bg-gray-200 text-gray-900'
+                    )}
+                  >
+                    {lang.name}
+                  </button>
+                ))}
+              </div>
+              <button
+                onClick={() => setShowLanguageModal(false)}
+                className={cn(
+                  'w-full mt-6 px-6 py-3 rounded-lg font-semibold transition-colors',
+                  darkMode ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-900'
+                )}
+              >
+                {t.cancel}
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Settings Modal */}
+      <AnimatePresence>
+        {showSettingsModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40"
+          >
+            <div className={cn(
+              'rounded-2xl p-6 w-96',
+              darkMode ? 'bg-gray-800' : 'bg-white'
+            )}>
+              <h3 className={cn('text-2xl font-bold mb-6', darkMode ? 'text-white' : 'text-gray-900')}>
+                {t.settings}
+              </h3>
+              <button
+                onClick={() => {
+                  setDarkMode(!darkMode);
+                  setShowSettingsModal(false);
+                }}
+                className={cn(
+                  'w-full p-4 rounded-lg flex items-center justify-between font-semibold transition-colors',
+                  darkMode ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-900'
+                )}
+              >
+                <span>{darkMode ? t.lightMode : t.darkMode}</span>
+                {darkMode ? <Moon size={20} /> : <Sun size={20} />}
+              </button>
+              <button
+                onClick={() => setShowSettingsModal(false)}
+                className={cn(
+                  'w-full mt-6 px-6 py-3 rounded-lg font-semibold transition-colors',
+                  darkMode ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-900'
+                )}
+              >
+                {t.cancel}
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Profile Modal */}
+      <AnimatePresence>
+        {showProfileModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40"
+          >
+            <div className={cn(
+              'rounded-2xl p-6 w-96 max-h-96 overflow-y-auto',
+              darkMode ? 'bg-gray-800' : 'bg-white'
+            )}>
+              <h3 className={cn('text-2xl font-bold mb-6', darkMode ? 'text-white' : 'text-gray-900')}>
+                {t.profile}
+              </h3>
+
+              <div className="text-center mb-6">
+                {profile?.avatar_url ? (
+                  <img src={profile.avatar_url} alt="Profile" className="w-24 h-24 rounded-full mx-auto mb-4 object-cover" />
+                ) : (
+                  <div className={cn(
+                    'w-24 h-24 rounded-full mx-auto mb-4 flex items-center justify-center',
+                    darkMode ? 'bg-gray-700' : 'bg-gray-200'
+                  )}>
+                    <User size={48} />
+                  </div>
+                )}
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading}
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-500 text-white rounded-lg font-semibold transition-colors"
+                >
+                  {uploading ? t.uploadingPhoto : t.uploadPhoto}
+                </button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoUpload}
+                  className="hidden"
+                />
+              </div>
+
+              <div className={cn(
+                'p-4 rounded-lg mb-6',
+                darkMode ? 'bg-gray-700' : 'bg-gray-100'
+              )}>
+                <p className={cn('text-sm', darkMode ? 'text-gray-400' : 'text-gray-600')}>
+                  {t.email}
+                </p>
+                <p className={cn('font-semibold text-lg', darkMode ? 'text-white' : 'text-gray-900')}>
+                  {profile?.email}
+                </p>
+              </div>
+
+              <div className={cn(
+                'p-4 rounded-lg mb-6',
+                darkMode ? 'bg-gray-700' : 'bg-gray-100'
+              )}>
+                <p className={cn('text-sm', darkMode ? 'text-gray-400' : 'text-gray-600')}>
+                  {t.firstName}
+                </p>
+                <p className={cn('font-semibold text-lg', darkMode ? 'text-white' : 'text-gray-900')}>
+                  {profile?.name || 'Not set'}
+                </p>
+              </div>
+
+              <button
+                onClick={() => setShowProfileModal(false)}
+                className={cn(
+                  'w-full px-6 py-3 rounded-lg font-semibold transition-colors',
+                  darkMode ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-900'
+                )}
+              >
+                {t.cancel}
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Delete Account Modal */}
+      <AnimatePresence>
+        {showDeleteModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40"
+          >
+            <div className={cn(
+              'rounded-2xl p-6 w-96',
+              darkMode ? 'bg-gray-800' : 'bg-white'
+            )}>
+              <h3 className={cn('text-2xl font-bold mb-4 text-red-600')}>
+                {t.deleteAccountPermanently}
+              </h3>
+              <p className={cn('mb-6', darkMode ? 'text-gray-300' : 'text-gray-700')}>
+                {t.deleteAccountWarning}
+              </p>
+              <p className={cn('mb-6 font-semibold', darkMode ? 'text-gray-300' : 'text-gray-700')}>
+                {t.deleteConfirm}
+              </p>
+
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setShowDeleteModal(false)}
+                  className={cn(
+                    'flex-1 px-6 py-3 rounded-lg font-semibold transition-colors',
+                    darkMode ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-900'
+                  )}
+                >
+                  {t.cancel}
+                </button>
+                <button
+                  onClick={handleDeleteAccount}
+                  className="flex-1 px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-colors"
+                >
+                  {t.confirmDelete}
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Emergency Button */}
+      <button
+        onClick={() => {
+          alert(`${t.emergency}: ${t.emergencyNumber}\nSouth African Police: 10111`);
+          announceArrival('en');
+        }}
+        className="fixed bottom-24 right-6 p-4 bg-red-600 hover:bg-red-700 text-white rounded-full shadow-lg z-20 transition-colors"
+        title={t.emergency}
+      >
+        <AlertTriangle size={28} />
+      </button>
+
+      {/* Chat Modal */}
+      <ChatModal isOpen={showChatModal} onClose={() => setShowChatModal(false)} darkMode={darkMode} />
+
+      {/* Notifications Modal */}
+      <NotificationsModal
+        isOpen={showNotificationsModal}
+        onClose={() => {
+          setShowNotificationsModal(false);
+          setNotificationCount(0);
+        }}
+        notifications={notifications}
+        darkMode={darkMode}
+      />
+    </div>
+  );
+}
