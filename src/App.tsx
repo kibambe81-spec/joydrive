@@ -114,12 +114,15 @@ const lightMapOptions = {
 };
 
 const RIDE_TYPES = [
-  { id: 'joy_lite', name: 'Joy Lite', icon: Car, basePrice: 25, pricePerKm: 8, time: '2 min', description: 'Quick & Efficient', color: '#FDB931' },
-  { id: 'joy_economy', name: 'Joy Economy', icon: Car, basePrice: 35, pricePerKm: 12, time: '4 min', description: 'Comfortable & Affordable', color: '#FFFFFF' },
-  { id: 'joy_express', name: 'Joy Express', icon: Car, basePrice: 50, pricePerKm: 18, time: '3 min', description: 'Premium & Fast', color: '#FFFFFF' },
-  { id: 'joy_vip', name: 'Joy VIP', icon: Car, basePrice: 100, pricePerKm: 35, time: '5 min', description: 'Luxury & Style', color: '#FFFFFF' },
-  { id: 'joy_parcels', name: 'Joy Parcels', icon: Package, basePrice: 30, pricePerKm: 10, time: '10 min', description: 'Safe & Secure Delivery', color: '#FDB931' },
-  { id: 'joy_moving', name: 'Joy Moving', icon: Truck, basePrice: 200, pricePerKm: 50, time: '15 min', description: 'Large Capacity Moving', color: '#FFFFFF' },
+  { id: 'joy_lite', name: 'Joy Lite', icon: Car, basePrice: 15, pricePerKm: 4.8, time: '2 min', description: 'Quick & Efficient', color: '#FFD700', seats: 2, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-lite-yellow-black-roof-etnaaXdnxrdNaiggNEH7WV.webp' },
+  { id: 'joy_economy', name: 'Joy Economy', icon: Car, basePrice: 21, pricePerKm: 7.2, time: '4 min', description: 'Comfortable & Affordable', color: '#FFFFFF', seats: 2, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-economy-white-clean-3u4EJcj29u2RRMT6YUSHYi.webp', sideViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-economy-white-clean-NZAZfbiACeCZBE4RXJdWZr.webp' },
+  { id: 'joy_confort', name: 'Joy Confort', icon: Car, basePrice: 21, pricePerKm: 7.2, time: '4 min', description: 'Comfortable & Affordable', color: '#FFFFFF', seats: 4, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-confort-white-black-roof-9B7dMyBAjHPjmHwVuGS6ur.webp', sideViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-economy-v2-VtuXfQGSyrevMmbuwjMwEA.webp' },
+  { id: 'joy_women', name: 'Joy Women for Women', icon: Car, basePrice: 60, pricePerKm: 21, time: '5 min', description: 'Luxury & Safe', color: '#C0C0C0', seats: 4, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-women-gray-pale-clean-7PH6zhPzjPAEH4mqkevt76.webp', sideViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-women-gray-pale-clean-T6mEbPNjDtjJsiXUg2fGmz.webp' },
+  { id: 'joy_express', name: 'Joy Express', icon: Car, basePrice: 30, pricePerKm: 10.8, time: '3 min', description: 'Premium & Fast', color: '#FFFFFF', seats: 4, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-express-white-black-roof-WfSbVdovRfvVc2abNoCJ7H.webp', sideViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-express-v2-fhHNuH8veh8LjKV9o5s2wb.webp' },
+  { id: 'joy_premium', name: 'Joy Premium', icon: Car, basePrice: 60, pricePerKm: 21, time: '5 min', description: 'Luxury & Style', color: '#FFFFFF', seats: 4, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-premium-white-black-roof-Bgm8Xi9QaJ6rHX4MVko4RK.webp', sideViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-vip-v2-WW2bcVFmanUFGWkWeiEmwd.webp' },
+  { id: 'joy_xl', name: 'Joy XL', icon: Car, basePrice: 36, pricePerKm: 12, time: '6 min', description: '6 Seater Van', color: '#000000', seats: 6, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-xl-black-black-roof-V2uuvunWAy4F4sp84qDv5s.webp', sideViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-black-xl-phares-bande-Y4wvFEG5hS4zJHrPDMozZy.webp' },
+  { id: 'joy_parcels', name: 'Joy Parcels', icon: Package, basePrice: 18, pricePerKm: 6, time: '10 min', description: 'Safe & Secure Delivery', color: '#FF8C00', seats: 1, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-parcels-orange-black-roof-4dUmx5UCntjFsWSFW8FrJB.webp', sideViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/delivery-box-3d-orange-RHRPuegGaDmXqRnCa68UNw.webp' },
+  { id: 'joy_moving', name: 'Joy Moving', icon: Truck, basePrice: 120, pricePerKm: 30, time: '15 min', description: 'Large Capacity Moving', color: '#FF8C00', seats: 2, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-moving-orange-black-roof-5iBDMRpC8hRQB5DZbmjBCW.webp', sideViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-moving-orange-black-joydrive-Cp7ZXFecag3DRWU7aEr8vG.webp' },
 ];
 
 const REFERENCE_ADDRESSES = [
@@ -568,6 +571,7 @@ export default function App() {
   const [heading, setHeading] = useState(0);
   const [showProfileEdit, setShowProfileEdit] = useState(false);
   const [showLanguageSelect, setShowLanguageSelect] = useState(false);
+  const [showRideDetails, setShowRideDetails] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -611,11 +615,57 @@ export default function App() {
   const [distance, setDistance] = useState(0);
   const [showAddressSuggestions, setShowAddressSuggestions] = useState(false);
   const [suggestionType, setSuggestionType] = useState<'origin' | 'destination'>('origin');
+  const [filterType, setFilterType] = useState<'recommended' | 'fastest' | 'cheapest'>('recommended');
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [addressSuggestions, setAddressSuggestions] = useState<{description: string, placeId: string}[]>([]);
+  const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+  const [tripPhase, setTripPhase] = useState<'pickup' | 'destination'>('pickup');
+  const [pathIndex, setPathIndex] = useState(0);
+  const [erasedPath, setErasedPath] = useState<google.maps.LatLngLiteral[]>([]);
+
+  const getSortedRides = () => {
+    const rides = [...RIDE_TYPES];
+    if (filterType === 'fastest') {
+      return rides.sort((a, b) => parseInt(a.time) - parseInt(b.time));
+    } else if (filterType === 'cheapest') {
+      return rides.sort((a, b) => a.basePrice - b.basePrice);
+    }
+    return rides;
+  };
 
   const calculatePrice = (rideType: any, distanceKm: number) => {
     const basePrice = rideType.basePrice || 0;
     const pricePerKm = rideType.pricePerKm || 0;
     return Math.max(basePrice, basePrice + (distanceKm * pricePerKm));
+  };
+
+  const fetchAddressSuggestions = async (input: string, type: 'origin' | 'destination') => {
+    if (!input.trim()) return;
+    setLoadingSuggestions(true);
+    try {
+      const service = new google.maps.places.AutocompleteService();
+      const result = await service.getPlacePredictions({
+        input: input,
+        componentRestrictions: { country: 'za' },
+      });
+      setAddressSuggestions(result.predictions.map(p => ({ description: p.description, placeId: p.place_id })));
+      setSuggestionType(type);
+      setShowAddressSuggestions(true);
+    } catch (error) {
+      console.error('Error fetching suggestions:', error);
+    } finally {
+      setLoadingSuggestions(false);
+    }
+  };
+
+  const handleSelectSuggestion = (suggestion: {description: string, placeId: string}) => {
+    if (suggestionType === 'origin') {
+      setOrigin(suggestion.description);
+    } else {
+      setDestination(suggestion.description);
+    }
+    setShowAddressSuggestions(false);
+    setAddressSuggestions([]);
   };
 
   const t = (key: string) => TRANSLATIONS[lang]?.[key] || TRANSLATIONS['en'][key];
@@ -943,10 +993,16 @@ export default function App() {
 
   const startPickupSimulation = (pickupResult: google.maps.DirectionsResult) => {
     const path = pickupResult.routes[0].overview_path;
-    let index = 0;
+    let pathIndex = 0;
+    let subIndex = 0;
+    const SUBSTEPS = 60;
+    const INTERVAL = 50;
+    setPathIndex(0);
+    setErasedPath([]);
+    setTripPhase('pickup');
     
     const interval = setInterval(() => {
-      if (index >= path.length) {
+      if (pathIndex >= path.length - 1) {
         clearInterval(interval);
         setEta(0);
         const speak = (text: string) => {
@@ -955,22 +1011,88 @@ export default function App() {
           window.speechSynthesis.speak(utterance);
         };
         speak(lang === 'fr' ? "Votre chauffeur est arrivé !" : "Your driver has arrived!");
+        setTripPhase('destination');
+        if (directions) {
+          startDestinationSimulation(directions);
+        }
         return;
       }
 
-      const currentPos = path[index];
-      const nextPos = path[index + 1] || currentPos;
-      const heading = google.maps.geometry.spherical.computeHeading(currentPos, nextPos);
+      const currentPos = path[pathIndex];
+      const nextPos = path[pathIndex + 1];
+      const progress = subIndex / SUBSTEPS;
       
-      setPickupSimulatedPos({ lat: currentPos.lat(), lng: currentPos.lng() });
-      setHeading(heading);
+      const interpolatedLat = currentPos.lat() + (nextPos.lat() - currentPos.lat()) * progress;
+      const interpolatedLng = currentPos.lng() + (nextPos.lng() - currentPos.lng()) * progress;
       
-      // Update ETA in real-time
-      const remainingSteps = path.length - index;
-      setEta(Math.max(1, Math.ceil(remainingSteps / 5)));
+      setPickupSimulatedPos({ lat: interpolatedLat, lng: interpolatedLng });
+      setErasedPath(path.slice(0, pathIndex + 1));
       
-      index++;
-    }, 1000);
+      if (subIndex === 0) {
+        const heading = google.maps.geometry.spherical.computeHeading(currentPos, nextPos);
+        setHeading(heading);
+      }
+      
+      const totalRemaining = (path.length - pathIndex - 1) + (1 - progress);
+      const estimatedTime = Math.max(1, Math.ceil(totalRemaining * 3));
+      setEta(estimatedTime);
+      
+      subIndex++;
+      if (subIndex >= SUBSTEPS) {
+        subIndex = 0;
+        pathIndex++;
+      }
+    }, INTERVAL);
+  };
+
+  const startDestinationSimulation = (destResult: google.maps.DirectionsResult) => {
+    const path = destResult.routes[0].overview_path;
+    let pathIndex = 0;
+    let subIndex = 0;
+    const SUBSTEPS = 60;
+    const INTERVAL = 125; // 60% plus lent
+    setPathIndex(0);
+    setErasedPath([]);
+    
+    const interval = setInterval(() => {
+      if (pathIndex >= path.length - 1) {
+        clearInterval(interval);
+        setEta(0);
+        const speak = (text: string) => {
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.lang = lang === 'fr' ? 'fr-FR' : 'en-US';
+          window.speechSynthesis.speak(utterance);
+        };
+        speak(lang === 'fr' ? "Vous etes arrive !" : "You have arrived!");
+        setAppState('rating');
+        return;
+      }
+
+      const currentPos = path[pathIndex];
+      const nextPos = path[pathIndex + 1];
+      const progress = subIndex / SUBSTEPS;
+      
+      const interpolatedLat = currentPos.lat() + (nextPos.lat() - currentPos.lat()) * progress;
+      const interpolatedLng = currentPos.lng() + (nextPos.lng() - currentPos.lng()) * progress;
+      
+      setSimulatedPos({ lat: interpolatedLat, lng: interpolatedLng });
+      setErasedPath(path.slice(0, pathIndex + 1));
+      
+      if (subIndex === 0) {
+        const heading = google.maps.geometry.spherical.computeHeading(currentPos, nextPos);
+        setHeading(heading);
+      }
+      
+      const totalRemaining = (path.length - pathIndex - 1) + (1 - progress);
+      const estimatedTime = Math.max(1, Math.ceil(totalRemaining * 3));
+      setEta(estimatedTime);
+      
+      subIndex++;
+      if (subIndex >= SUBSTEPS) {
+        subIndex = 0;
+        pathIndex++;
+      }
+    }, INTERVAL);
   };
 
   const calculateRoute = async () => {
@@ -1061,7 +1183,8 @@ export default function App() {
               polylineOptions: { 
                 strokeColor: '#3B82F6', // Blue route line
                 strokeWeight: 6, 
-                strokeOpacity: 0.9 
+                strokeOpacity: pickupSimulatedPos ? 0.1 : 0.9,
+                geodesic: true
               },
               markerOptions: { visible: false }
             }} />}
@@ -1101,67 +1224,79 @@ export default function App() {
             )}
             {pickupSimulatedPos && (
               <>
-                <Marker 
-                  position={pickupSimulatedPos} 
-                  icon={{
-                    path: "M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z",
-                    scale: 1.5,
-                    fillColor: selectedRide.color || '#FDB931',
-                    fillOpacity: 1,
-                    strokeWeight: 2,
-                    strokeColor: '#FFFFFF',
-                    anchor: new google.maps.Point(12, 12),
-                    rotation: heading
-                  }} 
-                />
                 <OverlayView
-                  position={google.maps.geometry.spherical.computeOffset(
-                    new google.maps.LatLng(pickupSimulatedPos.lat, pickupSimulatedPos.lng),
-                    -10, // 10 meters behind
-                    heading
-                  ).toJSON()}
+                  position={pickupSimulatedPos}
                   mapPaneName={OverlayView.FLOAT_PANE}
                 >
                   <motion.div 
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.3, ease: 'easeOut' }}
                     className="relative"
-                    style={{ transform: 'translate(-50%, -50%)' }}
+                    style={{ 
+                      transform: 'translate(-50%, -50%)', 
+                      width: '80px', 
+                      height: '80px'
+                    }}
                   >
-                    {/* The "Circle" with the flag */}
-                    <div className="w-12 h-12 rounded-full border-2 border-[#FDB931] shadow-[0_0_20px_rgba(253,185,49,0.5)] overflow-hidden bg-white flex items-center justify-center p-0.5">
-                      <div className="w-full h-full rounded-full overflow-hidden relative">
-                        <motion.img 
-                          src="https://flagcdn.com/za.svg" 
-                          alt="South Africa"
-                          className="w-full h-full object-cover"
-                          animate={{ 
-                            x: [-2, 2, -2],
-                            skewX: [-5, 5, -5]
-                          }}
-                          transition={{ 
-                            repeat: Infinity, 
-                            duration: 2,
-                            ease: "easeInOut"
-                          }}
-                          referrerPolicy="no-referrer"
-                        />
-                        {/* Glossy effect */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent pointer-events-none" />
-                      </div>
-                    </div>
-                    
-                    {/* Floating animation for the whole bubble */}
-                    <motion.div
-                      animate={{ y: [-2, 2, -2] }}
-                      transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-                      className="absolute -top-1 -right-1 w-3 h-3 bg-[#FDB931] rounded-full border border-white shadow-sm"
-                    />
+                    {/* Vehicle top view image */}
+                    <motion.div 
+                      className="w-full h-full flex items-center justify-center"
+                      animate={{ rotate: heading + 90 }}
+                      transition={{ rotate: { duration: 0.5, ease: 'easeInOut' }, y: { duration: 2, repeat: Infinity, ease: 'easeInOut' } }}
+                      style={{
+                        filter: `drop-shadow(0 8px 16px rgba(0,0,0,0.4))`,
+                        transformOrigin: 'center center'
+                      }}
+                    >
+                      <img 
+                        src={selectedRide.topViewUrl || 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-white-XiS3QfDtGyuSNM7rAjtcJt.webp'}
+                        alt="Vehicle"
+                        className="w-full h-full object-contain"
+                      />
+                    </motion.div>
                   </motion.div>
                 </OverlayView>
               </>
             )}
             {simulatedPos && (
+              <>
+                <OverlayView
+                  position={simulatedPos}
+                  mapPaneName={OverlayView.FLOAT_PANE}
+                >
+                  <motion.div 
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                    className="relative"
+                    style={{ 
+                      transform: 'translate(-50%, -50%)', 
+                      width: '80px', 
+                      height: '80px'
+                    }}
+                  >
+                    {/* Vehicle top view image */}
+                    <motion.div 
+                      className="w-full h-full flex items-center justify-center"
+                      animate={{ rotate: heading + 90 }}
+                      transition={{ rotate: { duration: 0.5, ease: 'easeInOut' }, y: { duration: 2, repeat: Infinity, ease: 'easeInOut' } }}
+                      style={{
+                        filter: `drop-shadow(0 8px 16px rgba(0,0,0,0.4))`,
+                        transformOrigin: 'center center'
+                      }}
+                    >
+                      <img 
+                        src={selectedRide.topViewUrl || 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-white-XiS3QfDtGyuSNM7rAjtcJt.webp'}
+                        alt="Vehicle"
+                        className="w-full h-full object-contain"
+                      />
+                    </motion.div>
+                  </motion.div>
+                </OverlayView>
+              </>
+            )}
+            {false && (
               <>
                 <Marker 
                   position={simulatedPos} 
@@ -1334,13 +1469,13 @@ export default function App() {
                   </nav>
 
                   <div className="mt-auto pt-8 space-y-4">
-                    <button onClick={() => setShowDeleteConfirm(true)} className="flex items-center gap-4 text-red-500/60 hover:text-red-500 transition-colors w-full p-3 rounded-xl hover:bg-red-500/5">
-                      <Zap className="w-5 h-5" />
-                      <span className="text-xs font-bold uppercase tracking-widest">{t('deleteAccountPerm')}</span>
-                    </button>
                     <button onClick={() => setAppState('landing')} className="flex items-center gap-4 text-red-400/80 hover:text-red-400 transition-colors w-full p-3 rounded-xl hover:bg-red-400/5">
                       <LogOut className="w-5 h-5" />
                       <span className="text-sm font-bold uppercase tracking-widest">{t('logout')}</span>
+                    </button>
+                    <button onClick={() => setShowDeleteConfirm(true)} className="flex items-center gap-4 text-red-500/60 hover:text-red-500 transition-colors w-full p-3 rounded-xl hover:bg-red-500/5">
+                      <Zap className="w-5 h-5" />
+                      <span className="text-xs font-bold uppercase tracking-widest">{t('deleteAccountPerm')}</span>
                     </button>
                   </div>
                 </motion.div>
@@ -1508,6 +1643,57 @@ export default function App() {
                   </div>
 
                   <button onClick={() => setShowFavorites(false)} className={cn("w-full font-bold py-4 rounded-2xl mt-8 transition-colors", theme === 'dark' ? "bg-white text-black" : "bg-black text-white")}>Close</button>
+                </div>
+              </motion.div>
+            )}
+
+            {showRideDetails && selectedRide && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={cn("fixed inset-0 z-[120] backdrop-blur-2xl flex items-center justify-center p-6", theme === 'dark' ? "bg-black/80" : "bg-white/80")}>
+                <div className="w-full max-w-md glass backdrop-blur-3xl rounded-3xl p-8 shadow-2xl overflow-y-auto max-h-[90vh] custom-scrollbar">
+                  <button onClick={() => setShowRideDetails(false)} className="absolute top-4 right-4 p-2 hover:bg-white/10 rounded-full transition-colors z-50 cursor-pointer"><X className="w-5 h-5" /></button>
+                  
+                  <div className="mb-8 text-center">
+                    <div className="w-full h-48 mb-6 flex items-center justify-center">
+                      {selectedRide.id === 'joy_lite' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-yellow-lite-ABswLC9mzjbfYVTuxDAj5E.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                      {selectedRide.id === 'joy_economy' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-economy-v2-VtuXfQGSyrevMmbuwjMwEA.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                      {selectedRide.id === 'joy_confort' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-economy-v2-VtuXfQGSyrevMmbuwjMwEA.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                      {selectedRide.id === 'joy_women' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-women-white-confort-A9zJWkLABFbFvfaRSubUwx.png" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                      {selectedRide.id === 'joy_express' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-express-v2-fhHNuH8veh8LjKV9o5s2wb.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                      {selectedRide.id === 'joy_premium' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-premium-gray-pale-3Dt54izWLtYiX6a7rhaXMQ.png" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                      {selectedRide.id === 'joy_xl' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-black-xl-phares-bande-Y4wvFEG5hS4zJHrPDMozZy.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                      {selectedRide.id === 'joy_parcels' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/delivery-box-3d-orange-RHRPuegGaDmXqRnCa68UNw.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                      {selectedRide.id === 'joy_moving' && <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663481567011/OWCFVVyhWBZuQygS.png" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                    </div>
+                    <h3 className="text-2xl font-display font-bold mb-2">{selectedRide.name}</h3>
+                    <p className="text-sm opacity-70">{selectedRide.description}</p>
+                  </div>
+
+                  <div className="space-y-4 mb-8">
+                    <div className="flex justify-between items-center p-4 glass rounded-2xl">
+                      <span className="text-sm opacity-70">Tarif</span>
+                      <span className="font-bold">R {selectedRide.basePrice.toFixed(0)}</span>
+                    </div>
+                    <div className="flex justify-between items-center p-4 glass rounded-2xl">
+                      <span className="text-sm opacity-70">Annulation</span>
+                      <span className="font-bold">R {(selectedRide.basePrice * 0.5).toFixed(0)}</span>
+                    </div>
+                    <div className="flex justify-between items-center p-4 glass rounded-2xl">
+                      <span className="text-sm opacity-70">Booking Fee</span>
+                      <span className="font-bold">5%</span>
+                    </div>
+                    <div className="flex justify-between items-center p-4 glass rounded-2xl">
+                      <span className="text-sm opacity-70">Réduction</span>
+                      <span className="font-bold text-green-500">20%</span>
+                    </div>
+                    <div className="flex justify-between items-center p-4 glass rounded-2xl">
+                      <span className="text-sm opacity-70">Sièges</span>
+                      <span className="font-bold">{selectedRide.seats}</span>
+                    </div>
+                  </div>
+
+                  <p className="text-xs opacity-50 text-center mb-6 leading-relaxed">Les estimations de prix peuvent varier si les frais de péages ou les majorations diffèrent (selon chaque ville). Si le trajet change, le prix sera calculé sur la base des tarifs fournis.</p>
+
+                  <button onClick={() => setShowRideDetails(false)} className={cn("w-full font-bold py-4 rounded-2xl transition-colors", theme === 'dark' ? "bg-white text-black" : "bg-black text-white")}>Fermer</button>
                 </div>
               </motion.div>
             )}
@@ -1775,7 +1961,7 @@ export default function App() {
                 <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} className="w-full max-w-lg max-h-[80vh] glass rounded-3xl p-4 md:p-6 shadow-2xl overflow-y-auto custom-scrollbar">
                   <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-2 custom-scrollbar">
                     <div className="relative">
-                      <div className={cn("absolute left-4 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full", theme === 'dark' ? "bg-white" : "bg-black")} />
+                      <div className={cn("absolute left-4 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-green-500")} />
                       {isLoaded && (
                         <Autocomplete 
                           onLoad={a => originRef.current = a} 
@@ -1791,7 +1977,7 @@ export default function App() {
                           <input 
                             type="text" 
                             placeholder={t('from')} 
-                            className={cn("w-full glass rounded-2xl py-4 pl-12 pr-4 text-sm focus:outline-none focus:ring-2", theme === 'dark' ? "focus:ring-white/20" : "focus:ring-black/10")} 
+                            className={cn("w-full glass rounded-2xl py-4 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 placeholder:text-green-500/70", theme === 'dark' ? "focus:ring-white/20" : "focus:ring-black/10")} 
                             value={origin} 
                             onChange={e => setOrigin(e.target.value)} 
                           />
@@ -1814,7 +2000,7 @@ export default function App() {
                       </button>
                       <button 
                         onClick={() => setShowStopInput(!showStopInput)} 
-                        className="text-[10px] uppercase tracking-widest opacity-50 hover:opacity-100 transition-opacity flex items-center gap-1"
+                        className="text-[10px] uppercase tracking-widest text-red-500 hover:text-red-400 transition-colors flex items-center gap-1 font-bold"
                       >
                         {showStopInput ? <X className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
                         {t('addStop')}
@@ -1849,7 +2035,7 @@ export default function App() {
                     )}
 
                     <div className="relative">
-                      <div className={cn("absolute left-4 top-1/2 -translate-y-1/2 w-2 h-2 border", theme === 'dark' ? "border-white" : "border-black")} />
+                      <div className={cn("absolute left-4 top-1/2 -translate-y-1/2 w-2 h-2 border-2 border-purple-500")} />
                       {isLoaded && (
                         <Autocomplete 
                           onLoad={a => destRef.current = a} 
@@ -1865,13 +2051,35 @@ export default function App() {
                           <input 
                             type="text" 
                             placeholder={t('whereTo')} 
-                            className={cn("w-full glass rounded-2xl py-4 pl-12 pr-4 text-sm focus:outline-none focus:ring-2", theme === 'dark' ? "focus:ring-white/20" : "focus:ring-black/10")} 
+                            className={cn("w-full glass rounded-2xl py-4 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 placeholder:text-purple-500/70", theme === 'dark' ? "focus:ring-white/20" : "focus:ring-black/10")} 
                             value={destination} 
-                            onChange={e => setDestination(e.target.value)} 
+                            onChange={e => {
+                              setDestination(e.target.value);
+                              if (e.target.value.length > 2) {
+                                fetchAddressSuggestions(e.target.value, 'destination');
+                              } else {
+                                setShowAddressSuggestions(false);
+                              }
+                            }}
                           />
                         </Autocomplete>
                       )}
                     </div>
+                    
+                    {showAddressSuggestions && addressSuggestions.length > 0 && (
+                      <div className="glass rounded-2xl p-3 max-h-48 overflow-y-auto space-y-2">
+                        {addressSuggestions.map((suggestion, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => handleSelectSuggestion(suggestion)}
+                            className="w-full text-left p-3 hover:bg-white/10 rounded-xl transition-colors text-sm"
+                          >
+                            <div className="truncate">{suggestion.description}</div>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    
                     <button onClick={calculateRoute} disabled={!origin || !destination} className="w-full bg-white text-black font-bold py-4 rounded-2xl hover:bg-neutral-200 transition-colors disabled:opacity-50">
                       {t('search')}
                     </button>
@@ -1881,24 +2089,60 @@ export default function App() {
 
               {appState === 'vehicle-selection' && (
                 <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} className="w-full max-w-lg glass rounded-3xl p-6 shadow-2xl">
-                  <h3 className="text-xl font-display mb-6 text-center joy-gradient font-bold">{t('search')}</h3>
+                  <h3 className="text-xl font-display mb-4 text-center joy-gradient font-bold">{t('search')}</h3>
+                  
+                  <div className="flex gap-2 mb-6 justify-center">
+                    <button 
+                      onClick={() => setFilterType('recommended')}
+                      className={cn("px-4 py-2 rounded-full text-sm font-bold transition-colors", filterType === 'recommended' ? "bg-[#FDB931] text-black" : "glass hover:bg-white/10")}
+                    >
+                      {lang === 'fr' ? 'Recommande' : 'Recommended'}
+                    </button>
+                    <button 
+                      onClick={() => setFilterType('fastest')}
+                      className={cn("px-4 py-2 rounded-full text-sm font-bold transition-colors", filterType === 'fastest' ? "bg-[#FDB931] text-black" : "glass hover:bg-white/10")}
+                    >
+                      {lang === 'fr' ? 'Plus rapide' : 'Fastest'}
+                    </button>
+                    <button 
+                      onClick={() => setFilterType('cheapest')}
+                      className={cn("px-4 py-2 rounded-full text-sm font-bold transition-colors", filterType === 'cheapest' ? "bg-[#FDB931] text-black" : "glass hover:bg-white/10")}
+                    >
+                      {lang === 'fr' ? 'Moins cher' : 'Cheapest'}
+                    </button>
+                  </div>
+                  
                   <div className="space-y-2 mb-6 max-h-[35vh] overflow-y-auto pr-2 custom-scrollbar">
-                    {RIDE_TYPES.map((ride, i) => (
+                    {getSortedRides().map((ride, i) => (
                       <motion.button 
                         key={ride.id} 
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.1 }}
-                        onClick={() => setSelectedRide(ride)} 
+                        onClick={() => { 
+                          if (selectedRide.id === ride.id) {
+                            setShowRideDetails(true);
+                          } else {
+                            setSelectedRide(ride);
+                          }
+                        }} 
                         className={cn("w-full flex items-center gap-4 p-4 rounded-2xl transition-all border", selectedRide.id === ride.id ? (theme === 'dark' ? "bg-white/10 border-white/30 scale-[1.02]" : "bg-black/5 border-black/20 scale-[1.02]") : "bg-transparent border-transparent hover:bg-white/5")}
                       >
                         <div className={cn("w-20 h-14 rounded-xl flex items-center justify-center relative overflow-hidden perspective-1000", selectedRide.id === ride.id ? "bg-gradient-to-br from-[#FDB931] to-[#f39c12] text-black shadow-[0_10px_20px_rgba(253,185,49,0.3)]" : (theme === 'dark' ? "bg-white/5" : "bg-black/5"))}>
                           <motion.div 
                             whileHover={{ rotateY: 15, rotateX: -10, scale: 1.1 }}
                             className="w-full h-full flex items-center justify-center"
-                            style={{ color: selectedRide.id === ride.id ? 'black' : ride.color }}
                           >
-                            <ride.icon className="w-8 h-8 drop-shadow-lg" />
+                            {ride.id === 'joy_lite' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-yellow-lite-ABswLC9mzjbfYVTuxDAj5E.webp" alt="Joy Lite" className="w-full h-full object-contain" />}
+                            {ride.id === 'joy_economy' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-economy-v2-VtuXfQGSyrevMmbuwjMwEA.webp" alt="Joy Economy" className="w-full h-full object-contain" />}
+                            {ride.id === 'joy_express' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-express-v2-fhHNuH8veh8LjKV9o5s2wb.webp" alt="Joy Express" className="w-full h-full object-contain" />}
+                            {ride.id === 'joy_vip' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-vip-v2-WW2bcVFmanUFGWkWeiEmwd.webp" alt="Joy VIP" className="w-full h-full object-contain" />}
+                            {ride.id === 'joy_xl' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-black-xl-phares-bande-Y4wvFEG5hS4zJHrPDMozZy.webp" alt="Joy XL" className="w-full h-full object-contain" />}
+                            {ride.id === 'joy_parcels' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/delivery-box-3d-orange-RHRPuegGaDmXqRnCa68UNw.webp" alt="Joy Parcels" className="w-full h-full object-contain" />}
+                            {ride.id === 'joy_moving' && <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663481567011/OWCFVVyhWBZuQygS.png" alt="Joy Moving" className="w-full h-full object-contain" />}
+                            {ride.id === 'joy_confort' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-economy-v2-VtuXfQGSyrevMmbuwjMwEA.webp" alt="Joy Confort" className="w-full h-full object-contain" />}
+                            {ride.id === 'joy_women' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-women-rose-confort-LxREntRLA8SxS5MxakLMnw.webp" alt="Joy Women" className="w-full h-full object-contain" />}
+                            {ride.id === 'joy_premium' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-vip-v2-WW2bcVFmanUFGWkWeiEmwd.webp" alt="Joy Premium" className="w-full h-full object-contain" />}
                           </motion.div>
                         </div>
                         <div className="flex-1 text-left">
@@ -1994,6 +2238,13 @@ export default function App() {
                   <button onClick={startSimulation} className={cn("w-full font-bold py-4 rounded-2xl shadow-xl transition-transform active:scale-95", theme === 'dark' ? "bg-white text-black" : "bg-black text-white")}>
                     {t('confirm')}
                   </button>
+                  
+                  <button 
+                    onClick={() => setShowCancelModal(true)}
+                    className="w-full font-bold py-3 rounded-2xl mt-3 transition-colors opacity-70 hover:opacity-100"
+                  >
+                    {lang === 'fr' ? 'Annuler le trajet' : 'Cancel Ride'}
+                  </button>
                 </motion.div>
               )}
 
@@ -2046,7 +2297,7 @@ export default function App() {
           {/* Compass / Location Button */}
           <div className="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col gap-4 z-20">
             <motion.button 
-              animate={{ rotate: heading }}
+              animate={{ rotate: heading + 90 }}
               className="w-12 h-12 glass rounded-full flex items-center justify-center hover:bg-white/10 transition-colors text-white"
             >
               <Navigation className="w-5 h-5" />
@@ -2109,6 +2360,39 @@ export default function App() {
 
                 <button onClick={() => setShowCommunicationModal(false)} className="w-full mt-4 glass py-3 rounded-2xl font-bold">
                   {lang === 'fr' ? "Fermer" : "Close"}
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
+
+          {/* Cancel Modal */}
+          {showCancelModal && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={cn("fixed inset-0 z-[120] backdrop-blur-2xl flex items-center justify-center p-6", theme === 'dark' ? "bg-black/80" : "bg-white/80")}>
+              <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="w-full max-w-sm glass backdrop-blur-3xl rounded-3xl p-8 shadow-2xl">
+                <h3 className="text-2xl font-display mb-6 text-center">{lang === 'fr' ? 'Raison de l\'annulation' : 'Cancel Reason'}</h3>
+                <div className="space-y-3">
+                  {[
+                    { en: 'Driver not moving', fr: 'Le chauffeur ne bouge pas' },
+                    { en: 'Driver is too far', fr: 'Le chauffeur est trop loin' },
+                    { en: 'Driver asked to cancel', fr: 'Le chauffeur m\'a demandé d\'annuler' },
+                    { en: 'I changed my mind', fr: 'J\'ai changé d\'avis' },
+                    { en: 'Driver taking too long', fr: 'Le chauffeur prend trop de temps' }
+                  ].map((reason, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        setAppState('vehicle-selection');
+                        setShowCancelModal(false);
+                        toast.success(lang === 'fr' ? 'Trajet annulé' : 'Ride cancelled');
+                      }}
+                      className="w-full glass p-4 rounded-2xl text-left hover:bg-white/10 transition-colors font-bold"
+                    >
+                      {lang === 'fr' ? reason.fr : reason.en}
+                    </button>
+                  ))}
+                </div>
+                <button onClick={() => setShowCancelModal(false)} className="w-full mt-6 glass py-3 rounded-2xl font-bold opacity-70 hover:opacity-100">
+                  {lang === 'fr' ? 'Fermer' : 'Close'}
                 </button>
               </motion.div>
             </motion.div>

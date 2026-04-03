@@ -93,7 +93,7 @@ export default function PaymentModal({ isOpen, onClose, theme }: PaymentModalPro
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <div className={cn("rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto", theme === 'dark' ? "bg-slate-800" : "bg-white")}>
+      <div className={cn("rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto", theme === 'dark' ? "bg-slate-900 text-white" : "bg-white text-black")}>
         <div className="flex items-center justify-between mb-8">
           <h2 className={cn("text-2xl font-bold", theme === 'dark' ? "text-white" : "text-black")}>Payment & Wallet</h2>
           <button onClick={onClose} className={cn("text-2xl font-bold", theme === 'dark' ? "text-white/50 hover:text-white" : "text-black/50 hover:text-black")}>✕</button>
