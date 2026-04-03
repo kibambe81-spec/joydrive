@@ -552,9 +552,11 @@ type AppState = 'landing' | 'auth' | 'map' | 'vehicle-selection' | 'searching' |
 const libraries: ("places" | "drawing" | "geometry" | "visualization")[] = ["places", "geometry"];
 
 export default function App() {
-  const [appState, setAppState] = useState<AppState>('landing');
+  // Check for demo mode in URL
+  const isDemoMode = window.location.hash === '#demo';
+  const [appState, setAppState] = useState<AppState>(isDemoMode ? 'search' : 'landing');
   const [lang, setLang] = useState('en');
-  const [user, setUser] = useState<{ name: string, email: string, photo: string, phone?: string } | null>(null);
+  const [user, setUser] = useState<{ name: string, email: string, photo: string, phone?: string } | null>(isDemoMode ? { name: 'Demo User', email: 'demo@joydrive.com', photo: '', phone: '+27 123 456 789' } : null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedRide, setSelectedRide] = useState(RIDE_TYPES[0]);
   const [origin, setOrigin] = useState('');
