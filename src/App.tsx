@@ -115,14 +115,14 @@ const lightMapOptions = {
 
 const RIDE_TYPES = [
   { id: 'joy_lite', name: 'Joy Lite', icon: Car, basePrice: 15, pricePerKm: 4.8, time: '2 min', description: 'Quick & Efficient', color: '#FFD700', seats: 2, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-lite-yellow-black-roof-etnaaXdnxrdNaiggNEH7WV.webp' },
-  { id: 'joy_economy', name: 'Joy Economy', icon: Car, basePrice: 21, pricePerKm: 7.2, time: '4 min', description: 'Comfortable & Affordable', color: '#FFFFFF', seats: 2, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/joydrive-topview-fMf73zAdrA9CZCW2zq7dAH.webp', sideViewUrl: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663481567011/CAEyEzbwurFwtQQp.png' },
+  { id: 'joy_economy', name: 'Joy Economy', icon: Car, basePrice: 21, pricePerKm: 7.2, time: '4 min', description: 'Comfortable & Affordable', color: '#FFFFFF', seats: 2, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-confort-white-black-roof-9B7dMyBAjHPjmHwVuGS6ur.webp', sideViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-economy-v2-VtuXfQGSyrevMmbuwjMwEA.webp' },
   { id: 'joy_confort', name: 'Joy Confort', icon: Car, basePrice: 21, pricePerKm: 7.2, time: '4 min', description: 'Comfortable & Affordable', color: '#FFFFFF', seats: 4, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-confort-white-black-roof-9B7dMyBAjHPjmHwVuGS6ur.webp', sideViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-economy-v2-VtuXfQGSyrevMmbuwjMwEA.webp' },
   { id: 'joy_women', name: 'Joy Women for Women', icon: Car, basePrice: 60, pricePerKm: 21, time: '5 min', description: 'Luxury & Safe', color: '#C0C0C0', seats: 4, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-women-gray-pale-clean-7PH6zhPzjPAEH4mqkevt76.webp', sideViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-women-gray-pale-clean-T6mEbPNjDtjJsiXUg2fGmz.webp' },
   { id: 'joy_express', name: 'Joy Express', icon: Car, basePrice: 30, pricePerKm: 10.8, time: '3 min', description: 'Premium & Fast', color: '#FFFFFF', seats: 4, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-express-white-black-roof-WfSbVdovRfvVc2abNoCJ7H.webp', sideViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-express-v2-fhHNuH8veh8LjKV9o5s2wb.webp' },
   { id: 'joy_premium', name: 'Joy Premium', icon: Car, basePrice: 60, pricePerKm: 21, time: '5 min', description: 'Luxury & Style', color: '#FFFFFF', seats: 4, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-premium-white-black-roof-Bgm8Xi9QaJ6rHX4MVko4RK.webp', sideViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-vip-v2-WW2bcVFmanUFGWkWeiEmwd.webp' },
   { id: 'joy_xl', name: 'Joy XL', icon: Car, basePrice: 36, pricePerKm: 12, time: '6 min', description: '6 Seater Van', color: '#000000', seats: 6, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-xl-black-black-roof-V2uuvunWAy4F4sp84qDv5s.webp', sideViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-black-xl-phares-bande-Y4wvFEG5hS4zJHrPDMozZy.webp' },
   { id: 'joy_parcels', name: 'Joy Parcels', icon: Package, basePrice: 18, pricePerKm: 6, time: '10 min', description: 'Safe & Secure Delivery', color: '#FF8C00', seats: 1, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-parcels-orange-black-roof-4dUmx5UCntjFsWSFW8FrJB.webp', sideViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/delivery-box-3d-orange-RHRPuegGaDmXqRnCa68UNw.webp' },
-  { id: 'joy_moving', name: 'Joy Moving', icon: Truck, basePrice: 120, pricePerKm: 30, time: '15 min', description: 'Large Capacity Moving', color: '#FF8C00', seats: 2, topViewUrl: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663481567011/WbfXbPqLBGHvZyWv.png', sideViewUrl: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663481567011/WbfXbPqLBGHvZyWv.png' },
+  { id: 'joy_moving', name: 'Joy Moving', icon: Truck, basePrice: 120, pricePerKm: 30, time: '15 min', description: 'Large Capacity Moving', color: '#FF8C00', seats: 2, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-parcels-orange-black-roof-4dUmx5UCntjFsWSFW8FrJB.webp', sideViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/delivery-box-3d-orange-RHRPuegGaDmXqRnCa68UNw.webp' },
 ];
 
 const REFERENCE_ADDRESSES = [
@@ -995,8 +995,8 @@ export default function App() {
     const path = pickupResult.routes[0].overview_path;
     let pathIndex = 0;
     let subIndex = 0;
-    const SUBSTEPS = 60;
-    const INTERVAL = 200; // Ralenti pour vitesse normale
+    const SUBSTEPS = 100;
+    const INTERVAL = 300; // Vitesse normale et fluide
     setPathIndex(0);
     setErasedPath([]);
     setTripPhase('pickup');
@@ -1049,8 +1049,8 @@ export default function App() {
     const path = destResult.routes[0].overview_path;
     let pathIndex = 0;
     let subIndex = 0;
-    const SUBSTEPS = 60;
-    const INTERVAL = 200; // Vitesse normale
+    const SUBSTEPS = 100;
+    const INTERVAL = 300; // Vitesse normale et fluide
     setPathIndex(0);
     setErasedPath([]);
     
@@ -2078,16 +2078,23 @@ export default function App() {
                     </div>
                     
                     {showAddressSuggestions && addressSuggestions.length > 0 && (
-                      <div className="glass rounded-2xl p-3 max-h-48 overflow-y-auto space-y-2">
+                      <div className="glass rounded-2xl p-4 max-h-64 overflow-y-auto space-y-1 border border-white/10">
                         {addressSuggestions.map((suggestion, idx) => (
                           <button
                             key={idx}
                             onClick={() => handleSelectSuggestion(suggestion)}
-                            className="w-full text-left p-3 hover:bg-white/10 rounded-xl transition-colors text-sm"
+                            className="w-full text-left p-3 hover:bg-white/20 rounded-xl transition-colors text-sm flex items-start gap-2"
                           >
-                            <div className="truncate">{suggestion.description}</div>
+                            <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0 text-purple-400" />
+                            <div className="flex-1 min-w-0">
+                              <div className="truncate text-white">{suggestion.description}</div>
+                            </div>
                           </button>
                         ))}
+                        <div className="text-xs text-white/40 p-2 border-t border-white/10 flex items-center justify-end gap-1">
+                          <span>Powered by</span>
+                          <span className="font-semibold">Google</span>
+                        </div>
                       </div>
                     )}
                     
