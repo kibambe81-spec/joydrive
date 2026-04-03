@@ -6,7 +6,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PaymentModal from './components/PaymentModal';
 import UserLocationMarker from './components/UserLocationMarker';
-import { GoogleMap, useJsApiLoader, Marker, DirectionsRenderer, Autocomplete, OverlayView } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, Marker, DirectionsRenderer, Autocomplete, OverlayView, Polyline } from '@react-google-maps/api';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Navigation, 
@@ -122,7 +122,7 @@ const RIDE_TYPES = [
   { id: 'joy_premium', name: 'Joy Premium', icon: Car, basePrice: 60, pricePerKm: 21, time: '5 min', description: 'Luxury & Style', color: '#FFFFFF', seats: 4, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-premium-white-black-roof-Bgm8Xi9QaJ6rHX4MVko4RK.webp', sideViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-vip-v2-WW2bcVFmanUFGWkWeiEmwd.webp' },
   { id: 'joy_xl', name: 'Joy XL', icon: Car, basePrice: 36, pricePerKm: 12, time: '6 min', description: '6 Seater Van', color: '#000000', seats: 6, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-xl-black-black-roof-V2uuvunWAy4F4sp84qDv5s.webp', sideViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-black-xl-phares-bande-Y4wvFEG5hS4zJHrPDMozZy.webp' },
   { id: 'joy_parcels', name: 'Joy Parcels', icon: Package, basePrice: 18, pricePerKm: 6, time: '10 min', description: 'Safe & Secure Delivery', color: '#FF8C00', seats: 1, topViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-topview-parcels-orange-black-roof-4dUmx5UCntjFsWSFW8FrJB.webp', sideViewUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/delivery-box-3d-orange-RHRPuegGaDmXqRnCa68UNw.webp' },
-  { id: 'joy_moving', name: 'Joy Moving', icon: Truck, basePrice: 120, pricePerKm: 30, time: '15 min', description: 'Large Capacity Moving', color: '#FF8C00', seats: 2, topViewUrl: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663481567011/OWCFVVyhWBZuQygS.png', sideViewUrl: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663481567011/OWCFVVyhWBZuQygS.png' },
+  { id: 'joy_moving', name: 'Joy Moving', icon: Truck, basePrice: 120, pricePerKm: 30, time: '15 min', description: 'Large Capacity Moving', color: '#FF8C00', seats: 2, topViewUrl: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663481567011/WbfXbPqLBGHvZyWv.png', sideViewUrl: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663481567011/WbfXbPqLBGHvZyWv.png' },
 ];
 
 const REFERENCE_ADDRESSES = [
@@ -996,7 +996,7 @@ export default function App() {
     let pathIndex = 0;
     let subIndex = 0;
     const SUBSTEPS = 60;
-    const INTERVAL = 50;
+    const INTERVAL = 200; // Ralenti pour vitesse normale
     setPathIndex(0);
     setErasedPath([]);
     setTripPhase('pickup');
@@ -1050,7 +1050,7 @@ export default function App() {
     let pathIndex = 0;
     let subIndex = 0;
     const SUBSTEPS = 60;
-    const INTERVAL = 125; // 60% plus lent
+    const INTERVAL = 200; // Vitesse normale
     setPathIndex(0);
     setErasedPath([]);
     
@@ -1183,11 +1183,22 @@ export default function App() {
               polylineOptions: { 
                 strokeColor: '#3B82F6', // Blue route line
                 strokeWeight: 6, 
-                strokeOpacity: pickupSimulatedPos ? 0.1 : 0.9,
+                strokeOpacity: simulatedPos && tripPhase === 'destination' ? 0.3 : 0.9,
                 geodesic: true
               },
               markerOptions: { visible: false }
             }} />}
+            {erasedPath.length > 0 && simulatedPos && tripPhase === 'destination' && (
+              <Polyline
+                path={erasedPath}
+                options={{
+                  strokeColor: '#3B82F6',
+                  strokeWeight: 6,
+                  strokeOpacity: 0,
+                  geodesic: true
+                }}
+              />
+            )}
             {pickupDirections && <DirectionsRenderer directions={pickupDirections} options={{
               polylineOptions: { 
                 strokeColor: '#FDB931', // Yellow pickup line
@@ -1662,7 +1673,7 @@ export default function App() {
                       {selectedRide.id === 'joy_premium' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-premium-gray-pale-3Dt54izWLtYiX6a7rhaXMQ.png" alt={selectedRide.name} className="w-full h-full object-contain" />}
                       {selectedRide.id === 'joy_xl' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-black-xl-phares-bande-Y4wvFEG5hS4zJHrPDMozZy.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
                       {selectedRide.id === 'joy_parcels' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/delivery-box-3d-orange-RHRPuegGaDmXqRnCa68UNw.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
-                      {selectedRide.id === 'joy_moving' && <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663481567011/OWCFVVyhWBZuQygS.png" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                      {selectedRide.id === 'joy_moving' && <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663481567011/WbfXbPqLBGHvZyWv.png" alt={selectedRide.name} className="w-full h-full object-contain" />}
                     </div>
                     <h3 className="text-2xl font-display font-bold mb-2">{selectedRide.name}</h3>
                     <p className="text-sm opacity-70">{selectedRide.description}</p>
@@ -2139,7 +2150,7 @@ export default function App() {
                             {ride.id === 'joy_vip' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-vip-v2-WW2bcVFmanUFGWkWeiEmwd.webp" alt="Joy VIP" className="w-full h-full object-contain" />}
                             {ride.id === 'joy_xl' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-black-xl-phares-bande-Y4wvFEG5hS4zJHrPDMozZy.webp" alt="Joy XL" className="w-full h-full object-contain" />}
                             {ride.id === 'joy_parcels' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/delivery-box-3d-orange-RHRPuegGaDmXqRnCa68UNw.webp" alt="Joy Parcels" className="w-full h-full object-contain" />}
-                            {ride.id === 'joy_moving' && <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663481567011/OWCFVVyhWBZuQygS.png" alt="Joy Moving" className="w-full h-full object-contain" />}
+                            {ride.id === 'joy_moving' && <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663481567011/WbfXbPqLBGHvZyWv.png" alt="Joy Moving" className="w-full h-full object-contain" />}
                             {ride.id === 'joy_confort' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-economy-v2-VtuXfQGSyrevMmbuwjMwEA.webp" alt="Joy Confort" className="w-full h-full object-contain" />}
                             {ride.id === 'joy_women' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-women-rose-confort-LxREntRLA8SxS5MxakLMnw.webp" alt="Joy Women" className="w-full h-full object-contain" />}
                             {ride.id === 'joy_premium' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-vip-v2-WW2bcVFmanUFGWkWeiEmwd.webp" alt="Joy Premium" className="w-full h-full object-contain" />}
