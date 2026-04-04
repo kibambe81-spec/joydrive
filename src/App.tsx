@@ -1052,7 +1052,7 @@ export default function App() {
     let pathIndex = 0;
     let subIndex = 0;
     const SUBSTEPS = 100;
-    const INTERVAL = 6000; // Réduit de 95% - trajet très lent et fluide (20x plus lent)
+    const INTERVAL = 5000; // Réduit de 95% - trajet très lent et fluide (16x plus lent)
     setPathIndex(0);
     setErasedPath([]);
     
@@ -1078,7 +1078,9 @@ export default function App() {
       const interpolatedLng = currentPos.lng() + (nextPos.lng() - currentPos.lng()) * progress;
       
       setSimulatedPos({ lat: interpolatedLat, lng: interpolatedLng });
-      setErasedPath(path.slice(0, pathIndex + 1));
+      // Effacer la ligne derrière le véhicule - garder seulement la ligne future
+      const remainingPath = path.slice(pathIndex + 1);
+      setErasedPath(remainingPath);
       
       if (subIndex === 0) {
         const heading = google.maps.geometry.spherical.computeHeading(currentPos, nextPos);
@@ -1196,7 +1198,7 @@ export default function App() {
                 options={{
                   strokeColor: '#3B82F6',
                   strokeWeight: 6,
-                  strokeOpacity: 0,
+                  strokeOpacity: 1,
                   geodesic: true
                 }}
               />
@@ -1205,7 +1207,7 @@ export default function App() {
               polylineOptions: { 
                 strokeColor: '#FDB931', // Yellow pickup line
                 strokeWeight: 4, 
-                strokeOpacity: 0,
+                strokeOpacity: 1,
                 icons: [{
                   icon: { path: 'M 0,-1 0,1', strokeOpacity: 1, scale: 4 },
                   offset: '0',
