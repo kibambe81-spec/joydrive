@@ -624,6 +624,8 @@ export default function App() {
   const [tripPhase, setTripPhase] = useState<'pickup' | 'destination'>('pickup');
   const [pathIndex, setPathIndex] = useState(0);
   const [erasedPath, setErasedPath] = useState<google.maps.LatLngLiteral[]>([]);
+  const [vehicleRotation, setVehicleRotation] = useState(0);
+  const [touchStartAngle, setTouchStartAngle] = useState(0);
 
   const getSortedRides = () => {
     const rides = [...RIDE_TYPES];
@@ -1668,17 +1670,37 @@ export default function App() {
                   <button onClick={() => setShowRideDetails(false)} className="absolute top-4 right-4 p-2 hover:bg-white/10 rounded-full transition-colors z-50 cursor-pointer"><X className="w-5 h-5" /></button>
                   
                   <div className="mb-8 text-center">
-                    <div className="w-full h-48 mb-6 flex items-center justify-center">
-                      {selectedRide.id === 'joy_lite' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-yellow-lite-ABswLC9mzjbfYVTuxDAj5E.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
-                      {selectedRide.id === 'joy_economy' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-economy-v2-VtuXfQGSyrevMmbuwjMwEA.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
-                      {selectedRide.id === 'joy_confort' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-economy-v2-VtuXfQGSyrevMmbuwjMwEA.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
-                      {selectedRide.id === 'joy_women' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-women-white-confort-A9zJWkLABFbFvfaRSubUwx.png" alt={selectedRide.name} className="w-full h-full object-contain" />}
-                      {selectedRide.id === 'joy_express' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-express-v2-fhHNuH8veh8LjKV9o5s2wb.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
-                      {selectedRide.id === 'joy_premium' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-premium-gray-pale-3Dt54izWLtYiX6a7rhaXMQ.png" alt={selectedRide.name} className="w-full h-full object-contain" />}
-                      {selectedRide.id === 'joy_xl' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-black-xl-phares-bande-Y4wvFEG5hS4zJHrPDMozZy.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
-                      {selectedRide.id === 'joy_parcels' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/delivery-box-3d-orange-RHRPuegGaDmXqRnCa68UNw.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
-                      {selectedRide.id === 'joy_moving' && <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663481567011/WbfXbPqLBGHvZyWv.png" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                    <div className="w-full h-48 mb-6 flex items-center justify-center cursor-grab active:cursor-grabbing" 
+                      onTouchStart={(e) => {
+                        if (e.touches.length === 2) {
+                          const touch1 = e.touches[0];
+                          const touch2 = e.touches[1];
+                          const angle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * (180 / Math.PI);
+                          setTouchStartAngle(angle);
+                        }
+                      }}
+                      onTouchMove={(e) => {
+                        if (e.touches.length === 2) {
+                          const touch1 = e.touches[0];
+                          const touch2 = e.touches[1];
+                          const angle = Math.atan2(touch2.clientY - touch1.clientY, touch2.clientX - touch1.clientX) * (180 / Math.PI);
+                          const diff = angle - touchStartAngle;
+                          setVehicleRotation(prev => prev + diff);
+                          setTouchStartAngle(angle);
+                        }
+                      }}
+                    >
+                      {selectedRide.id === 'joy_lite' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-yellow-lite-ABswLC9mzjbfYVTuxDAj5E.webp" alt={selectedRide.name} className="w-full h-full object-contain" style={{ transform: `rotate(${vehicleRotation}deg)`, transition: 'transform 0.1s linear' }} />}
+                      {selectedRide.id === 'joy_economy' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-economy-v2-VtuXfQGSyrevMmbuwjMwEA.webp" alt={selectedRide.name} className="w-full h-full object-contain" style={{ transform: `rotate(${vehicleRotation}deg)`, transition: 'transform 0.1s linear' }} />}
+                      {selectedRide.id === 'joy_confort' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-economy-v2-VtuXfQGSyrevMmbuwjMwEA.webp" alt={selectedRide.name} className="w-full h-full object-contain" style={{ transform: `rotate(${vehicleRotation}deg)`, transition: 'transform 0.1s linear' }} />}
+                      {selectedRide.id === 'joy_women' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-women-white-confort-A9zJWkLABFbFvfaRSubUwx.png" alt={selectedRide.name} className="w-full h-full object-contain" style={{ transform: `rotate(${vehicleRotation}deg)`, transition: 'transform 0.1s linear' }} />}
+                      {selectedRide.id === 'joy_express' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-express-v2-fhHNuH8veh8LjKV9o5s2wb.webp" alt={selectedRide.name} className="w-full h-full object-contain" style={{ transform: `rotate(${vehicleRotation}deg)`, transition: 'transform 0.1s linear' }} />}
+                      {selectedRide.id === 'joy_premium' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-premium-gray-pale-3Dt54izWLtYiX6a7rhaXMQ.png" alt={selectedRide.name} className="w-full h-full object-contain" style={{ transform: `rotate(${vehicleRotation}deg)`, transition: 'transform 0.1s linear' }} />}
+                      {selectedRide.id === 'joy_xl' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-black-xl-phares-bande-Y4wvFEG5hS4zJHrPDMozZy.webp" alt={selectedRide.name} className="w-full h-full object-contain" style={{ transform: `rotate(${vehicleRotation}deg)`, transition: 'transform 0.1s linear' }} />}
+                      {selectedRide.id === 'joy_parcels' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/delivery-box-3d-orange-RHRPuegGaDmXqRnCa68UNw.webp" alt={selectedRide.name} className="w-full h-full object-contain" style={{ transform: `rotate(${vehicleRotation}deg)`, transition: 'transform 0.1s linear' }} />}
+                      {selectedRide.id === 'joy_moving' && <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663481567011/WbfXbPqLBGHvZyWv.png" alt={selectedRide.name} className="w-full h-full object-contain" style={{ transform: `rotate(${vehicleRotation}deg)`, transition: 'transform 0.1s linear' }} />}
                     </div>
+                    <p className="text-xs opacity-50 mb-4">Utilisez deux doigts pour tourner le véhicule</p>
                     <h3 className="text-2xl font-display font-bold mb-2">{selectedRide.name}</h3>
                     <p className="text-sm opacity-70">{selectedRide.description}</p>
                   </div>
