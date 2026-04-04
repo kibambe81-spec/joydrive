@@ -1052,7 +1052,7 @@ export default function App() {
     let pathIndex = 0;
     let subIndex = 0;
     const SUBSTEPS = 100;
-    const INTERVAL = 300; // Vitesse normale et fluide
+    const INTERVAL = 6000; // Réduit de 95% - trajet très lent et fluide (20x plus lent)
     setPathIndex(0);
     setErasedPath([]);
     
