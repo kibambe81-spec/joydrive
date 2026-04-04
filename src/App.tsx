@@ -2245,6 +2245,19 @@ export default function App() {
 
               {appState === 'driver-found' && (
                 <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="w-full max-w-lg glass rounded-3xl p-6 shadow-2xl">
+                  {/* Affichage 3D du véhicule choisi */}
+                  <div className="w-full h-32 mb-6 flex items-center justify-center glass rounded-2xl overflow-hidden bg-gradient-to-br from-white/5 to-white/10">
+                    {selectedRide.id === 'joy_lite' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-yellow-lite-ABswLC9mzjbfYVTuxDAj5E.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                    {selectedRide.id === 'joy_economy' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-economy-v2-VtuXfQGSyrevMmbuwjMwEA.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                    {selectedRide.id === 'joy_confort' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-economy-v2-VtuXfQGSyrevMmbuwjMwEA.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                    {selectedRide.id === 'joy_women' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-women-white-confort-A9zJWkLABFbFvfaRSubUwx.png" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                    {selectedRide.id === 'joy_express' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-express-v2-fhHNuH8veh8LjKV9o5s2wb.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                    {selectedRide.id === 'joy_premium' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-premium-gray-pale-3Dt54izWLtYiX6a7rhaXMQ.png" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                    {selectedRide.id === 'joy_xl' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-black-xl-phares-bande-Y4wvFEG5hS4zJHrPDMozZy.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                    {selectedRide.id === 'joy_parcels' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/delivery-box-3d-orange-RHRPuegGaDmXqRnCa68UNw.webp" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                    {selectedRide.id === 'joy_moving' && <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663481567011/WbfXbPqLBGHvZyWv.png" alt={selectedRide.name} className="w-full h-full object-contain" />}
+                  </div>
+                  
                   <div className="flex items-center gap-4 mb-6">
                     <div className="relative">
                       <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#FDB931]">
