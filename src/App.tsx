@@ -1158,12 +1158,16 @@ export default function App() {
 
   return (
     <div 
-      className={cn("relative w-full h-screen overflow-hidden transition-colors duration-500", theme === 'dark' ? "bg-black text-white" : "bg-white text-black")}
+      className={cn("fixed inset-0 w-screen h-screen overflow-hidden transition-colors duration-500", theme === 'dark' ? "bg-black text-white" : "bg-white text-black")}
       style={{
         '--glass-bg': theme === 'dark' 
           ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%)' 
           : 'linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.02) 100%)',
         '--glass-border': theme === 'dark' ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.08)',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
       } as React.CSSProperties}
     >
       <AnimatePresence>
