@@ -2258,7 +2258,7 @@ export default function App() {
                     {selectedRide.id === 'joy_moving' && <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663481567011/WbfXbPqLBGHvZyWv.png" alt={selectedRide.name} className="w-full h-full object-contain" />}
                   </div>
                   
-                  <div className="flex items-center gap-4 mb-6">
+                  <div className="flex items-start gap-4 mb-6">
                     <div className="relative">
                       <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#FDB931]">
                         <img src="https://picsum.photos/seed/driver/100/100" className="w-full h-full object-cover" />
@@ -2269,11 +2269,30 @@ export default function App() {
                     </div>
                     <div className="flex-1">
                       <p className="font-bold text-lg">{driverInfo.name}</p>
-                      <p className="text-xs opacity-50">{driverInfo.car} • {driverInfo.plate}</p>
+                      <div className="flex gap-2 mt-1 flex-wrap">
+                        <span className="glass px-2 py-1 rounded text-xs font-semibold">{driverInfo.car}</span>
+                        <span className="bg-[#FDB931] text-black px-2 py-1 rounded text-xs font-bold">{driverInfo.plate}</span>
+                      </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-[10px] opacity-50 uppercase tracking-widest">{t('eta')}</p>
-                      <p className="font-display text-2xl font-bold joy-gradient">{eta} {t('min')}</p>
+                      <p className="text-[10px] opacity-50 uppercase tracking-widest font-bold">ETA</p>
+                      <p className="font-display text-3xl font-bold text-[#FDB931]">{Math.ceil(eta)}</p>
+                      <p className="text-xs opacity-50 font-semibold">min</p>
+                    </div>
+                  </div>
+                  
+                  {/* Petit écran du véhicule du chauffeur */}
+                  <div className="w-full mb-6 flex items-center justify-center glass rounded-2xl overflow-hidden bg-gradient-to-br from-white/5 to-white/10 p-3 border border-white/10">
+                    <div className="w-full h-20 flex items-center justify-center">
+                      {selectedRide.id === 'joy_lite' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-yellow-lite-ABswLC9mzjbfYVTuxDAj5E.webp" alt={selectedRide.name} className="h-full object-contain" />}
+                      {selectedRide.id === 'joy_economy' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-economy-v2-VtuXfQGSyrevMmbuwjMwEA.webp" alt={selectedRide.name} className="h-full object-contain" />}
+                      {selectedRide.id === 'joy_confort' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-economy-v2-VtuXfQGSyrevMmbuwjMwEA.webp" alt={selectedRide.name} className="h-full object-contain" />}
+                      {selectedRide.id === 'joy_women' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-women-white-confort-A9zJWkLABFbFvfaRSubUwx.png" alt={selectedRide.name} className="h-full object-contain" />}
+                      {selectedRide.id === 'joy_express' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-white-express-v2-fhHNuH8veh8LjKV9o5s2wb.webp" alt={selectedRide.name} className="h-full object-contain" />}
+                      {selectedRide.id === 'joy_premium' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-premium-gray-pale-3Dt54izWLtYiX6a7rhaXMQ.png" alt={selectedRide.name} className="h-full object-contain" />}
+                      {selectedRide.id === 'joy_xl' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/vehicle-side-black-xl-phares-bande-Y4wvFEG5hS4zJHrPDMozZy.webp" alt={selectedRide.name} className="h-full object-contain" />}
+                      {selectedRide.id === 'joy_parcels' && <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663481567011/LtnsvWcZbxMaRQ4hYCseKv/delivery-box-3d-orange-RHRPuegGaDmXqRnCa68UNw.webp" alt={selectedRide.name} className="h-full object-contain" />}
+                      {selectedRide.id === 'joy_moving' && <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663481567011/WbfXbPqLBGHvZyWv.png" alt={selectedRide.name} className="h-full object-contain" />}
                     </div>
                   </div>
                   
