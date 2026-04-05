@@ -2,5 +2,11 @@
   "buildCommand": "npm install --legacy-peer-deps && npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
-  "installCommand": "npm install --legacy-peer-deps"
+  "installCommand": "npm install --legacy-peer-deps",
+  "env": {
+    "VITE_SUPABASE_URL": "@supabase_url",
+    "VITE_SUPABASE_ANON_KEY": "@supabase_key",
+    "VITE_GOOGLE_MAPS_API_KEY": "@google_maps_key",
+    "VITE_GEMINI_API_KEY": "@gemini_key"
+  }
 }
